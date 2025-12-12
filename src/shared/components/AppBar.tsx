@@ -1,0 +1,134 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AppBar as MuiAppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Divider } from '@mui/material'
+import { Menu as MenuIcon } from '@mui/icons-material'
+import { Bell, User, LogOut } from 'lucide-react'
+import { useAppDispatch } from '../store/hooks'
+import { logout } from '../../modules/auth/slices/authSlice'
+
+interface AppBarProps {
+  onMenuClick: () => void
+}
+
+export default function AppBar({ onMenuClick }: AppBarProps) {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+
+  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleUserMenuClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleLogout = () => {
+    dispatch(logout())
+    handleUserMenuClose()
+    navigate('/login', { replace: true })
+  }
+
+  return (
+    <MuiAppBar
+      position="sticky"
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        height: 64,
+      }}
+    >
+      <Toolbar sx={{ gap: 1.5, px: 1.5 }}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={onMenuClick}
+          sx={{
+            '&:hover': {
+              backgroundColor: 'action.hover',
+            },
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        <Box sx={{ flexGrow: 1 }}>
+          <Typography variant="h1" component="h1" sx={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2 }}>
+            Civic Portal
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+            Citizen Services Dashboard
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: 0.75, alignItems: 'center' }}>
+          <IconButton
+            color="inherit"
+            sx={{
+              position: 'relative',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+            }}
+          >
+            <Bell size={20} />
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                backgroundColor: 'error.main',
+                border: '2px solid',
+                borderColor: 'background.paper',
+              }}
+            />
+          </IconButton>
+
+          <IconButton
+            color="inherit"
+            onClick={handleUserMenuClick}
+            sx={{
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+            }}
+          >
+            <User size={20} />
+          </IconButton>
+        </Box>
+
+        {/* User Menu */}
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleUserMenuClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <MenuItem disabled>
+            <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
+              Account
+            </Typography>
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleLogout}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <LogOut size={18} />
+              <Typography variant="body2">Logout</Typography>
+            </Box>
+          </MenuItem>
+        </Menu>
+      </Toolbar>
+    </MuiAppBar>
+  )
+}
