@@ -1,10 +1,12 @@
 import { Box, Typography, Container } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useComplaints } from '../hooks/useComplaints'
 import { useComplaintFilters } from '../hooks/useComplaintFilters'
 import ComplaintFilters from './ComplaintFilters'
 import ComplaintsGrid from './ComplaintsGrid'
 
 export default function ComplaintsPage() {
+  const { t } = useTranslation('complaints')
   const { complaints, loading, error, refetch } = useComplaints()
   const {
     searchQuery,
@@ -17,7 +19,7 @@ export default function ComplaintsPage() {
   if (loading) {
     return (
       <Box sx={{ p: 3 }}>
-        <Typography>Loading complaints...</Typography>
+        <Typography>{t('loading')}</Typography>
       </Box>
     )
   }
@@ -25,7 +27,7 @@ export default function ComplaintsPage() {
   if (error) {
     return (
       <Box sx={{ p: 3 }}>
-        <Typography color="error">Error loading complaints: {error.message}</Typography>
+        <Typography color="error">{t('error', { message: error.message })}</Typography>
       </Box>
     )
   }
@@ -35,10 +37,10 @@ export default function ComplaintsPage() {
       {/* Page Header */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h2" component="h2" sx={{ mb: 0.5, fontSize: '2rem', fontWeight: 700 }}>
-          Citizen Complaints
+          {t('title')}
         </Typography>
         <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1rem' }}>
-          Monitor and manage all citizen service requests.
+          {t('description')}
         </Typography>
       </Box>
 

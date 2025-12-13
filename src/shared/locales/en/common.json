@@ -1,0 +1,62 @@
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "confirm": "Confirm",
+    "submit": "Submit",
+    "login": "Login",
+    "logout": "Logout",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "download": "Download",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "refresh": "Refresh",
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "retry": "Retry"
+  },
+  "status": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "noData": "No data found",
+    "empty": "Empty",
+    "failed": "Failed"
+  },
+  "messages": {
+    "required": "This field is required",
+    "invalid": "Invalid value",
+    "success": "Operation completed successfully",
+    "error": "An error occurred",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "cannotUndo": "This action cannot be undone"
+  },
+  "labels": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "status": "Status",
+    "actions": "Actions",
+    "description": "Description",
+    "date": "Date",
+    "time": "Time",
+    "account": "Account",
+    "settings": "Settings",
+    "language": "Language",
+    "theme": "Theme"
+  },
+  "placeholders": {
+    "search": "Search...",
+    "enterText": "Enter text...",
+    "selectOption": "Select an option"
+  }
+}

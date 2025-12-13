@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import { AppBar as MuiAppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Divider } from '@mui/material'
 import { Menu as MenuIcon } from '@mui/icons-material'
 import { Bell, User, LogOut, Sun, Moon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../store/hooks'
 import { logout } from '../../modules/auth/slices/authSlice'
 import { useTheme } from '../contexts/ThemeContext'
+import LanguageSwitcher from './LanguageSwitcher'
 
 interface AppBarProps {
   onMenuClick: () => void
 }
 
 export default function AppBar({ onMenuClick }: AppBarProps) {
+  const { t } = useTranslation(['auth', 'common'])
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { mode, toggleMode } = useTheme()
@@ -57,14 +60,16 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
 
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="h1" component="h1" sx={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2 }}>
-            Civic Portal
+            {t('auth:appTitle')}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-            Citizen Services Dashboard
+            {t('auth:appSubtitle')}
           </Typography>
         </Box>
 
         <Box sx={{ display: 'flex', gap: 0.75, alignItems: 'center' }}>
+          <LanguageSwitcher />
+
           <IconButton
             color="inherit"
             onClick={toggleMode}
@@ -132,14 +137,14 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
         >
           <MenuItem disabled>
             <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
-              Account
+              {t('common:labels.account')}
             </Typography>
           </MenuItem>
           <Divider />
           <MenuItem onClick={handleLogout}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <LogOut size={18} />
-              <Typography variant="body2">Logout</Typography>
+              <Typography variant="body2">{t('auth:logout')}</Typography>
             </Box>
           </MenuItem>
         </Menu>

@@ -1,0 +1,62 @@
+{
+  "buttons": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "add": "إضافة",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "submit": "إرسال",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "search": "بحث",
+    "filter": "تصفية",
+    "clear": "مسح",
+    "download": "تحميل",
+    "view": "عرض",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "refresh": "تحديث",
+    "loading": "جاري التحميل...",
+    "processing": "جاري المعالجة...",
+    "retry": "إعادة المحاولة"
+  },
+  "status": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "noData": "لا توجد بيانات",
+    "empty": "فارغ",
+    "failed": "فشل"
+  },
+  "messages": {
+    "required": "هذا الحقل مطلوب",
+    "invalid": "قيمة غير صحيحة",
+    "success": "تمت العملية بنجاح",
+    "error": "حدث خطأ",
+    "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
+    "cannotUndo": "لا يمكن التراجع عن هذا الإجراء"
+  },
+  "labels": {
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "status": "الحالة",
+    "actions": "الإجراءات",
+    "description": "الوصف",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "account": "الحساب",
+    "settings": "الإعدادات",
+    "language": "اللغة",
+    "theme": "المظهر"
+  },
+  "placeholders": {
+    "search": "بحث...",
+    "enterText": "أدخل النص...",
+    "selectOption": "اختر خياراً"
+  }
+}

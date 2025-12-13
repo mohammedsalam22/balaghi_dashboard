@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './shared/contexts/ThemeContext'
+import { LanguageProvider } from './shared/contexts/LanguageContext'
 import LoginPage from './modules/auth/components/LoginPage'
 import DashboardPage from './modules/dashboard/components/DashboardPage'
 import ComplaintsPage from './modules/complaints/components/ComplaintsPage'
@@ -12,8 +13,9 @@ import MainLayout from './shared/layouts/MainLayout'
 
 function App() {
   return (
-    <ThemeProvider>
-      <BrowserRouter>
+    <LanguageProvider>
+      <ThemeProvider>
+        <BrowserRouter>
         <Routes>
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
@@ -86,6 +88,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
+    </LanguageProvider>
   )
 }
 

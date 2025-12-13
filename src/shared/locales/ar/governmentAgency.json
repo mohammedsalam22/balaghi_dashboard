@@ -1,0 +1,54 @@
+{
+  "title": "الجهات الحكومية",
+  "description": "عرض وإدارة جميع الجهات الحكومية وموظفيها.",
+  "addAgency": "إضافة جهة",
+  "searchPlaceholder": "البحث في الجهات بالاسم...",
+  "table": {
+    "agencyName": "اسم الجهة",
+    "employees": "الموظفون",
+    "employee": "موظف",
+    "employeesPlural": "موظفون",
+    "actions": "الإجراءات",
+    "noAgencies": "لا توجد جهات حكومية",
+    "noMatching": "لا توجد جهات تطابق \"{{query}}\""
+  },
+  "addDialog": {
+    "title": "إضافة جهة جديدة",
+    "agencyName": "اسم الجهة",
+    "nameRequired": "اسم الجهة مطلوب",
+    "createError": "فشل إنشاء الجهة"
+  },
+  "detailsDialog": {
+    "title": "تفاصيل الجهة",
+    "agencyName": "اسم الجهة",
+    "employees": "الموظفون",
+    "employeeCount": "{{count}} {{count, plural, one {موظف} other {موظفون}}}",
+    "noEmployees": "لا يوجد موظفون معينون لهذه الجهة",
+    "addEmployee": "إضافة موظف",
+    "inviteEmployee": "دعوة موظف جديد",
+    "employeeName": "اسم الموظف",
+    "employeeEmail": "بريد الموظف الإلكتروني",
+    "nameRequired": "البريد الإلكتروني والاسم مطلوبان",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+    "sendInvitation": "إرسال الدعوة",
+    "invitationSent": "تم إرسال دعوة الموظف بنجاح",
+    "inviteError": "فشل إرسال دعوة الموظف",
+    "editName": "تعديل الاسم",
+    "saveChanges": "حفظ التغييرات",
+    "deleteAgency": "حذف الجهة",
+    "deleteEmployee": "حذف الموظف",
+    "deleteAgencyConfirm": "هل أنت متأكد من حذف \"{{name}}\"? لا يمكن التراجع عن هذا الإجراء.",
+    "deleteEmployeeConfirm": "هل أنت متأكد من حذف \"{{name}}\"? لا يمكن التراجع عن هذا الإجراء.",
+    "updateError": "فشل تحديث الجهة",
+    "deleteError": "فشل حذف الجهة",
+    "deleteEmployeeError": "فشل حذف الموظف"
+  },
+  "deleteConfirm": {
+    "title": "حذف الجهة",
+    "message": "هل أنت متأكد من حذف \"{{name}}\"? لا يمكن التراجع عن هذا الإجراء.",
+    "confirm": "حذف",
+    "cancel": "إلغاء"
+  },
+  "loading": "جاري تحميل الجهات الحكومية...",
+  "error": "خطأ في تحميل الجهات الحكومية: {{message}}"
+}

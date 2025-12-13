@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Typography, Box, Button, Alert, Divider } from '@mui/material'
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { Complaint, ComplaintStatus } from '../types'
 import { useAppSelector } from '../../../shared/store/hooks'
 import ConfirmationDialog from '../../../shared/components/ConfirmationDialog'
@@ -8,7 +9,7 @@ import ComplaintStatusSelector from './ComplaintStatusSelector'
 import ComplaintInformation from './ComplaintInformation'
 import ComplaintAttachments from './ComplaintAttachments'
 import { useComplaintStatusUpdate } from '../hooks/useComplaintStatusUpdate'
-import { statusConfig } from '../utils/complaintUtils'
+import { useStatusConfig } from '../utils/complaintUtils'
 
 interface ComplaintDetailsDialogProps {
   open: boolean
@@ -18,6 +19,8 @@ interface ComplaintDetailsDialogProps {
 }
 
 export default function ComplaintDetailsDialog({ open, onClose, complaint, onStatusUpdate }: ComplaintDetailsDialogProps) {
+  const { t } = useTranslation('complaints')
+  const statusConfig = useStatusConfig()
   const { roles } = useAppSelector((state) => state.auth)
   const [currentStatus, setCurrentStatus] = useState<ComplaintStatus | null>(null)
 
@@ -70,7 +73,7 @@ export default function ComplaintDetailsDialog({ open, onClose, complaint, onSta
       >
         <Box>
           <Typography variant="h3" component="span" sx={{ fontSize: '1.25rem', fontWeight: 600, mr: 1 }}>
-            Complaint Details
+            {t('details.title')}
           </Typography>
           <Typography
             variant="body2"
@@ -101,7 +104,7 @@ export default function ComplaintDetailsDialog({ open, onClose, complaint, onSta
         {/* Status Update Messages */}
         {statusUpdateHook.updateSuccess && (
           <Alert severity="success" sx={{ mb: 2 }} onClose={() => statusUpdateHook.setUpdateSuccess(false)}>
-            Status updated successfully
+            {t('details.statusUpdated')}
           </Alert>
         )}
         {statusUpdateHook.updateError && (
@@ -123,7 +126,7 @@ export default function ComplaintDetailsDialog({ open, onClose, complaint, onSta
         {/* Description */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 600, mb: 1, color: 'text.secondary' }}>
-            Description
+            {t('details.description')}
           </Typography>
           <Typography variant="body1" sx={{ fontSize: '0.9375rem', lineHeight: 1.6, color: 'text.primary' }}>
             {complaint.description}
@@ -146,21 +149,24 @@ export default function ComplaintDetailsDialog({ open, onClose, complaint, onSta
 
       <DialogActions sx={{ px: 2.5, py: 2, borderTop: '1px solid', borderColor: 'divider' }}>
         <Button onClick={onClose} variant="outlined" sx={{ textTransform: 'none' }}>
-          Close
+          {t('details.close')}
         </Button>
       </DialogActions>
 
       {/* Confirmation Dialog */}
       <ConfirmationDialog
         open={statusUpdateHook.confirmDialogOpen}
-        title="Change Complaint Status"
+        title={t('details.changeStatus')}
         message={
           statusUpdateHook.pendingStatus
-            ? `Are you sure you want to change the status from "${statusConfig[displayStatus]?.label || displayStatus}" to "${statusConfig[statusUpdateHook.pendingStatus]?.label || statusUpdateHook.pendingStatus}"?`
+            ? t('details.changeStatusMessage', {
+                from: statusConfig[displayStatus]?.label || displayStatus,
+                to: statusConfig[statusUpdateHook.pendingStatus]?.label || statusUpdateHook.pendingStatus,
+              })
             : ''
         }
-        confirmText="Change Status"
-        cancelText="Cancel"
+        confirmText={t('details.changeStatusButton')}
+        cancelText={t('common:buttons.cancel')}
         confirmColor="primary"
         onConfirm={statusUpdateHook.handleConfirmStatusUpdate}
         onCancel={statusUpdateHook.handleCancelStatusUpdate}

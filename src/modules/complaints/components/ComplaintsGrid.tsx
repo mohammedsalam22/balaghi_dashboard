@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import type { Complaint } from '../types'
 import ComplaintCard from './ComplaintCard'
 
@@ -8,6 +9,8 @@ interface ComplaintsGridProps {
 }
 
 export default function ComplaintsGrid({ complaints, onStatusUpdate }: ComplaintsGridProps) {
+  const { t } = useTranslation('complaints')
+  
   if (complaints.length === 0) {
     return (
       <Box
@@ -20,7 +23,7 @@ export default function ComplaintsGrid({ complaints, onStatusUpdate }: Complaint
         }}
       >
         <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-          No complaints found
+          {t('empty.noComplaints')}
         </Typography>
       </Box>
     )

@@ -1,32 +1,34 @@
 import type { ComplaintStatus } from '../types'
+import { useTranslation } from 'react-i18next'
 import { usePalette } from '../../../shared/hooks/usePalette'
 
 // Hook to get status config based on current theme
 export function useStatusConfig() {
+  const { t } = useTranslation('complaints')
   const palette = usePalette()
   return {
     Pending: {
-      label: 'Pending',
+      label: t('status.pending'),
       color: palette.statusPending,
       backgroundColor: `${palette.statusPending}33`,
     },
     UnderReview: {
-      label: 'Under Review',
+      label: t('status.underReview'),
       color: palette.statusProgress || palette.accent,
       backgroundColor: `${palette.statusProgress || palette.accent}33`,
     },
     InProgress: {
-      label: 'In Progress',
+      label: t('status.inProgress'),
       color: palette.statusProgress,
       backgroundColor: `${palette.statusProgress}33`,
     },
     Resolved: {
-      label: 'Resolved',
+      label: t('status.resolved'),
       color: palette.statusResolved,
       backgroundColor: `${palette.statusResolved}33`,
     },
     Rejected: {
-      label: 'Rejected',
+      label: t('status.rejected'),
       color: palette.destructive,
       backgroundColor: `${palette.destructive}33`,
     },
@@ -65,10 +67,10 @@ export const statusConfig = {
 
 export const statusOptions: ComplaintStatus[] = ['Pending', 'UnderReview', 'InProgress', 'Resolved', 'Rejected']
 
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string, locale: string = 'en-US'): string => {
   try {
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -80,10 +82,10 @@ export const formatDate = (dateString: string): string => {
   }
 }
 
-export const formatDateShort = (dateString: string): string => {
+export const formatDateShort = (dateString: string, locale: string = 'en-US'): string => {
   try {
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

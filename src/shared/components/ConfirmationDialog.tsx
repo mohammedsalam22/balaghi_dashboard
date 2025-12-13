@@ -10,6 +10,7 @@ import {
   IconButton,
 } from '@mui/material'
 import { AlertTriangle, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { usePalette } from '../hooks/usePalette'
 
 interface ConfirmationDialogProps {
@@ -26,16 +27,22 @@ interface ConfirmationDialogProps {
 
 export default function ConfirmationDialog({
   open,
-  title = 'Confirm Action',
+  title,
   message,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText,
+  cancelText,
   confirmColor = 'error',
   onConfirm,
   onCancel,
   loading = false,
 }: ConfirmationDialogProps) {
+  const { t } = useTranslation('common')
   const palette = usePalette()
+  
+  const dialogTitle = title || t('messages.confirmDelete')
+  const dialogConfirmText = confirmText || t('buttons.confirm')
+  const dialogCancelText = cancelText || t('buttons.cancel')
+  
   return (
     <Dialog
       open={open}
@@ -59,7 +66,7 @@ export default function ConfirmationDialog({
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <AlertTriangle size={24} style={{ color: palette.destructive }} />
           <Typography variant="h2" sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
-            {title}
+            {dialogTitle}
           </Typography>
         </Box>
         <IconButton
@@ -104,7 +111,7 @@ export default function ConfirmationDialog({
             borderRadius: '0.5rem',
           }}
         >
-          {cancelText}
+          {dialogCancelText}
         </Button>
         <Button
           onClick={onConfirm}
@@ -116,7 +123,7 @@ export default function ConfirmationDialog({
             borderRadius: '0.5rem',
           }}
         >
-          {loading ? 'Processing...' : confirmText}
+          {loading ? t('buttons.processing') : dialogConfirmText}
         </Button>
       </DialogActions>
     </Dialog>

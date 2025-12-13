@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { Building2, Plus, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import { createAgencyAsync } from '../slices/governmentAgenciesSlice'
@@ -22,6 +23,7 @@ interface AddAgencyDialogProps {
 }
 
 export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyDialogProps) {
+  const { t } = useTranslation('governmentAgency')
   const palette = usePalette()
   const dispatch = useAppDispatch()
   const { error: reduxError, isLoading } = useAppSelector((state) => state.governmentAgencies)
@@ -43,7 +45,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      setError('Agency name is required')
+      setError(t('addDialog.nameRequired'))
       return
     }
 
@@ -55,10 +57,10 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
       handleClose()
       onSuccess()
       } else {
-        setError(result.payload as string || 'Failed to create agency')
+        setError(result.payload as string || t('addDialog.createError'))
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create agency')
+      setError(err instanceof Error ? err.message : t('addDialog.createError'))
     }
   }
 
@@ -85,7 +87,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Building2 size={24} style={{ color: palette.accent }} />
           <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
-            Add New Agency
+            {t('addDialog.title')}
           </Typography>
         </Box>
         <IconButton
@@ -131,7 +133,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
               display: 'block',
             }}
           >
-            Agency Name
+            {t('addDialog.agencyName')}
           </Typography>
           <TextField
             fullWidth
@@ -140,7 +142,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
               setName(e.target.value)
               setError(null)
             }}
-            placeholder="Enter agency name"
+            placeholder={t('addDialog.agencyName')}
             error={!!error && !name.trim()}
             helperText={error && !name.trim() ? error : ''}
             sx={{
@@ -164,7 +166,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
           gap: 1,
         }}
       >
-        <Button
+          <Button
           onClick={handleClose}
           disabled={isLoading}
           variant="outlined"
@@ -173,7 +175,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
             borderRadius: '0.5rem',
           }}
         >
-          Cancel
+          {t('common:buttons.cancel')}
         </Button>
         <Button
           startIcon={<Plus size={18} />}
@@ -185,7 +187,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
             borderRadius: '0.5rem',
           }}
         >
-          Add Agency
+          {t('addAgency')}
         </Button>
       </DialogActions>
     </Dialog>

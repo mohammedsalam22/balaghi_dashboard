@@ -1,28 +1,35 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Box } from '@mui/material'
 import { Home as HomeIcon, FileText, Users, BarChart3, Settings as SettingsIcon, Building2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '../contexts/LanguageContext'
 import { useAppSelector } from '../store/hooks'
 
 interface AppSidebarProps {
   open: boolean
 }
 
-// All navigation items with their required roles
-const allNavigationItems = [
-  { icon: <HomeIcon size={20} />, label: 'Dashboard', path: '/dashboard', roles: ['Admin', 'Employee'] },
-  { icon: <FileText size={20} />, label: 'Complaints', path: '/complaints', roles: ['Admin', 'Employee'] },
-  { icon: <Users size={20} />, label: 'Citizens', path: '/citizens', roles: ['Admin'] },
-  { icon: <Building2 size={20} />, label: 'Government Agencies', path: '/government-agency', roles: ['Admin'] },
-  { icon: <BarChart3 size={20} />, label: 'Analytics', path: '/analytics', roles: ['Admin'] },
-  { icon: <SettingsIcon size={20} />, label: 'Settings', path: '/settings', roles: ['Admin', 'Employee'] },
-]
-
 export default function AppSidebar({ open }: AppSidebarProps) {
+  const { t } = useTranslation('navigation')
+  const { direction } = useLanguage()
   const navigate = useNavigate()
   const location = useLocation()
   const { roles } = useAppSelector((state) => state.auth)
   const drawerWidth = 240
   const railWidth = 72
+  
+  // In RTL, sidebar should be on the right
+  const anchor = direction === 'rtl' ? 'right' : 'left'
+
+  // All navigation items with their required roles
+  const allNavigationItems = [
+    { icon: <HomeIcon size={20} />, labelKey: 'dashboard', path: '/dashboard', roles: ['Admin', 'Employee'] },
+    { icon: <FileText size={20} />, labelKey: 'complaints', path: '/complaints', roles: ['Admin', 'Employee'] },
+    { icon: <Users size={20} />, labelKey: 'citizens', path: '/citizens', roles: ['Admin'] },
+    { icon: <Building2 size={20} />, labelKey: 'governmentAgencies', path: '/government-agency', roles: ['Admin'] },
+    { icon: <BarChart3 size={20} />, labelKey: 'analytics', path: '/analytics', roles: ['Admin'] },
+    { icon: <SettingsIcon size={20} />, labelKey: 'settings', path: '/settings', roles: ['Admin', 'Employee'] },
+  ]
 
   // Filter navigation items based on user roles
   const navigationItems = allNavigationItems.filter((item) => {
@@ -39,6 +46,7 @@ export default function AppSidebar({ open }: AppSidebarProps) {
   return (
     <Drawer
       variant="persistent"
+      anchor={anchor}
       open={true}
       sx={{
         width: open ? drawerWidth : railWidth,
@@ -68,15 +76,16 @@ export default function AppSidebar({ open }: AppSidebarProps) {
               display: 'block',
             }}
           >
-            Navigation
+            {t('title')}
           </Typography>
         )}
 
         <List sx={{ gap: 0.25 }}>
           {navigationItems.map((item) => {
             const isActive = location.pathname === item.path
+            const label = t(item.labelKey)
             return (
-              <ListItem key={item.label} disablePadding sx={{ mb: 0.25 }}>
+              <ListItem key={item.labelKey} disablePadding sx={{ mb: 0.25 }}>
                 <ListItemButton
                   selected={isActive}
                   onClick={() => handleNavigation(item.path)}
@@ -85,6 +94,7 @@ export default function AppSidebar({ open }: AppSidebarProps) {
                     py: 0.75,
                     px: open ? 0.75 : 1,
                     justifyContent: open ? 'flex-start' : 'center',
+                    flexDirection: open && direction === 'rtl' ? 'row-reverse' : 'row',
                     cursor: 'pointer',
                     '&.Mui-selected': {
                       backgroundColor: 'action.hover',
@@ -99,23 +109,42 @@ export default function AppSidebar({ open }: AppSidebarProps) {
                       color: 'text.primary',
                     },
                   }}
-                  title={!open ? item.label : undefined}
+                  title={!open ? label : undefined}
                 >
                   <ListItemIcon
                     sx={{
-                      minWidth: open ? 36 : 'auto',
+                      minWidth: open ? (direction === 'rtl' ? 0 : 36) : 'auto',
                       justifyContent: 'center',
                       color: isActive ? 'text.primary' : 'text.secondary',
+                      ...(open && direction === 'rtl' 
+                        ? { 
+                            marginRight: 0,
+                            marginLeft: 1,
+                            order: 2, // Icon comes after text in RTL
+                          }
+                        : {
+                            marginRight: 'auto',
+                            marginLeft: 0,
+                            order: 1, // Icon comes before text in LTR
+                          }
+                      ),
                     }}
                   >
                     {item.icon}
                   </ListItemIcon>
                   {open && (
                     <ListItemText
-                      primary={item.label}
+                      primary={label}
                       primaryTypographyProps={{
                         fontSize: '0.9375rem',
                         fontWeight: isActive ? 500 : 400,
+                      }}
+                      sx={{
+                        margin: 0,
+                        order: direction === 'rtl' ? 1 : 2, // Text comes before icon in RTL
+                        '& .MuiListItemText-primary': {
+                          textAlign: direction === 'rtl' ? 'right' : 'left',
+                        },
                       }}
                     />
                   )}

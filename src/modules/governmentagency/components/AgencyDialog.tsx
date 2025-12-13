@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import { Building2, Users, Mail, Edit2, Trash2, X, Plus, Check, XCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import type { GovernmentAgency } from '../types'
@@ -33,6 +34,7 @@ interface AgencyDialogProps {
 }
 
 export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete }: AgencyDialogProps) {
+  const { t } = useTranslation('governmentAgency')
   const palette = usePalette()
   const dispatch = useAppDispatch()
   const { error: reduxError, isLoading } = useAppSelector((state) => state.governmentAgencies)
@@ -131,8 +133,8 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
 
     setConfirmDialog({
       open: true,
-      title: 'Delete Agency',
-      message: `Are you sure you want to delete "${agency.name}"? This action cannot be undone.`,
+      title: t('detailsDialog.deleteAgency'),
+      message: t('detailsDialog.deleteAgencyConfirm', { name: agency.name }),
       onConfirm: async () => {
         try {
           setError(null)
@@ -170,14 +172,14 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
     if (!agency) return
 
     if (!employeeEmail.trim() || !employeeName.trim()) {
-      setInviteError('Both email and name are required')
+      setInviteError(t('detailsDialog.nameRequired'))
       return
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(employeeEmail.trim())) {
-      setInviteError('Please enter a valid email address')
+      setInviteError(t('detailsDialog.invalidEmail'))
       return
     }
 
@@ -194,7 +196,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
       )
       
       if (inviteEmployeeAsync.fulfilled.match(result)) {
-        setInviteSuccess(result.payload.message || 'Employee invitation sent successfully')
+        setInviteSuccess(result.payload.message || t('detailsDialog.invitationSent'))
         setEmployeeEmail('')
         setEmployeeName('')
         // Refresh the agency data after a short delay to show success message
@@ -217,8 +219,8 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
 
     setConfirmDialog({
       open: true,
-      title: 'Delete Employee',
-      message: `Are you sure you want to delete "${employeeName}"? This action cannot be undone.`,
+      title: t('detailsDialog.deleteEmployee'),
+      message: t('detailsDialog.deleteEmployeeConfirm', { name: employeeName }),
       onConfirm: async () => {
         try {
           setDeletingEmployeeId(employeeId)
@@ -267,7 +269,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Building2 size={24} style={{ color: palette.accent }} />
           <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
-            Agency Details
+            {t('detailsDialog.title')}
           </Typography>
         </Box>
         <IconButton
@@ -313,14 +315,14 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
               display: 'block',
             }}
           >
-            Agency Name
+            {t('detailsDialog.agencyName')}
           </Typography>
           {isEditing ? (
             <TextField
               fullWidth
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter agency name"
+              placeholder={t('detailsDialog.agencyName')}
               size="small"
               error={!!error && !name.trim()}
               sx={{
@@ -360,7 +362,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                 display: 'block',
               }}
             >
-              Employees ({employeeCount})
+              {t('detailsDialog.employees')} ({employeeCount})
             </Typography>
             {!showAddEmployee && (
               <Button
@@ -374,7 +376,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                   fontSize: '0.8125rem',
                 }}
               >
-                Add Employee
+                {t('detailsDialog.addEmployee')}
               </Button>
             )}
           </Box>
@@ -393,7 +395,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
             >
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 600 }}>
-                  Invite New Employee
+                  {t('detailsDialog.inviteEmployee')}
                 </Typography>
                 <IconButton
                   onClick={handleCancelAddEmployee}
@@ -450,13 +452,13 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
 
               <Stack spacing={1.5}>
                 <TextField
-                  label="Employee Name"
+                  label={t('detailsDialog.employeeName')}
                   value={employeeName}
                   onChange={(e) => {
                     setEmployeeName(e.target.value)
                     setInviteError(null)
                   }}
-                  placeholder="Enter employee full name"
+                  placeholder={t('detailsDialog.employeeName')}
                   fullWidth
                   size="small"
                   error={!!inviteError && !employeeName.trim()}
@@ -468,14 +470,14 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                   }}
                 />
                 <TextField
-                  label="Employee Email"
+                  label={t('detailsDialog.employeeEmail')}
                   type="email"
                   value={employeeEmail}
                   onChange={(e) => {
                     setEmployeeEmail(e.target.value)
                     setInviteError(null)
                   }}
-                  placeholder="Enter employee email"
+                  placeholder={t('detailsDialog.employeeEmail')}
                   fullWidth
                   size="small"
                   error={!!inviteError && !employeeEmail.trim()}
@@ -497,7 +499,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                       borderRadius: '0.5rem',
                     }}
                   >
-                    Cancel
+                    {t('common:buttons.cancel')}
                   </Button>
                   <Button
                     startIcon={<Plus size={16} />}
@@ -510,7 +512,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                       borderRadius: '0.5rem',
                     }}
                   >
-                    Send Invitation
+                    {t('detailsDialog.sendInvitation')}
                   </Button>
                 </Box>
               </Stack>
@@ -571,7 +573,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
               }}
             >
               <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
-                No employees assigned to this agency
+                {t('detailsDialog.noEmployees')}
               </Typography>
             </Box>
           )}
@@ -597,7 +599,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
             borderRadius: '0.5rem',
           }}
         >
-          Delete Agency
+          {t('detailsDialog.deleteAgency')}
         </Button>
         <Box sx={{ display: 'flex', gap: 1 }}>
           {isEditing ? (
@@ -611,7 +613,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                   borderRadius: '0.5rem',
                 }}
               >
-                Cancel
+                {t('common:buttons.cancel')}
               </Button>
               <Button
                 startIcon={<Edit2 size={18} />}
@@ -623,7 +625,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                   borderRadius: '0.5rem',
                 }}
               >
-                Save Changes
+                {t('detailsDialog.saveChanges')}
               </Button>
             </>
           ) : (
@@ -636,7 +638,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                 borderRadius: '0.5rem',
               }}
             >
-              Edit Name
+              {t('detailsDialog.editName')}
             </Button>
           )}
         </Box>

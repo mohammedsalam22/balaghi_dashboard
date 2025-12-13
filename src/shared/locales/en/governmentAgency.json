@@ -1,0 +1,54 @@
+{
+  "title": "Government Agencies",
+  "description": "View and manage all government agencies and their employees.",
+  "addAgency": "Add Agency",
+  "searchPlaceholder": "Search agencies by name...",
+  "table": {
+    "agencyName": "Agency Name",
+    "employees": "Employees",
+    "employee": "Employee",
+    "employeesPlural": "Employees",
+    "actions": "Actions",
+    "noAgencies": "No government agencies found",
+    "noMatching": "No agencies found matching \"{{query}}\""
+  },
+  "addDialog": {
+    "title": "Add New Agency",
+    "agencyName": "Agency Name",
+    "nameRequired": "Agency name is required",
+    "createError": "Failed to create agency"
+  },
+  "detailsDialog": {
+    "title": "Agency Details",
+    "agencyName": "Agency Name",
+    "employees": "Employees",
+    "employeeCount": "{{count}} {{count, plural, one {Employee} other {Employees}}}",
+    "noEmployees": "No employees assigned to this agency",
+    "addEmployee": "Add Employee",
+    "inviteEmployee": "Invite New Employee",
+    "employeeName": "Employee Name",
+    "employeeEmail": "Employee Email",
+    "nameRequired": "Both email and name are required",
+    "invalidEmail": "Please enter a valid email address",
+    "sendInvitation": "Send Invitation",
+    "invitationSent": "Employee invitation sent successfully",
+    "inviteError": "Failed to invite employee",
+    "editName": "Edit Name",
+    "saveChanges": "Save Changes",
+    "deleteAgency": "Delete Agency",
+    "deleteEmployee": "Delete Employee",
+    "deleteAgencyConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "deleteEmployeeConfirm": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "updateError": "Failed to update agency",
+    "deleteError": "Failed to delete agency",
+    "deleteEmployeeError": "Failed to delete employee"
+  },
+  "deleteConfirm": {
+    "title": "Delete Agency",
+    "message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "loading": "Loading government agencies...",
+  "error": "Error loading government agencies: {{message}}"
+}

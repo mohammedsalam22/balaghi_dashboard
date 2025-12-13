@@ -94,10 +94,11 @@ function createColorPalette(colors: typeof lightColors) {
 const lightPalette = createColorPalette(lightColors)
 const darkPalette = createColorPalette(darkColors)
 
-function createAppTheme(mode: ThemeMode): Theme {
+function createAppTheme(mode: ThemeMode, direction: 'ltr' | 'rtl' = 'ltr'): Theme {
   const palette = mode === 'light' ? lightPalette : darkPalette
 
   return createTheme({
+    direction,
     palette: {
       mode,
       primary: {
@@ -122,7 +123,9 @@ function createAppTheme(mode: ThemeMode): Theme {
       },
     },
     typography: {
-      fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontFamily: direction === 'rtl' 
+        ? '"Cairo", "Segoe UI", "Arial", sans-serif'
+        : 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       h1: {
         fontSize: '1.5rem',
         fontWeight: 700,
@@ -197,12 +200,42 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return savedMode === 'dark' || savedMode === 'light' ? savedMode : 'light'
   })
 
+  const [direction, setDirection] = useState<'ltr' | 'rtl'>(() => {
+    const savedLang = localStorage.getItem('i18nextLng')
+    return savedLang === 'ar' ? 'rtl' : 'ltr'
+  })
+
   useEffect(() => {
     // Save preference to localStorage
     localStorage.setItem('themeMode', mode)
     // Update data-theme attribute for CSS variables
     document.documentElement.setAttribute('data-theme', mode)
   }, [mode])
+
+  // Listen for language changes via custom event from LanguageContext
+  useEffect(() => {
+    const handleLanguageChange = (e: CustomEvent) => {
+      const newLang = e.detail as string
+      setDirection(newLang === 'ar' ? 'rtl' : 'ltr')
+    }
+
+    window.addEventListener('languageChanged' as any, handleLanguageChange as EventListener)
+    
+    // Also listen to storage events for cross-tab updates
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'i18nextLng') {
+        const newLang = e.newValue || 'en'
+        setDirection(newLang === 'ar' ? 'rtl' : 'ltr')
+      }
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+
+    return () => {
+      window.removeEventListener('languageChanged' as any, handleLanguageChange as EventListener)
+      window.removeEventListener('storage', handleStorageChange)
+    }
+  }, [])
 
   const toggleMode = () => {
     setModeState((prev) => (prev === 'light' ? 'dark' : 'light'))
@@ -212,7 +245,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     setModeState(newMode)
   }
 
-  const theme = createAppTheme(mode)
+  const theme = createAppTheme(mode, direction)
 
   return (
     <ThemeContext.Provider value={{ mode, toggleMode, setMode }}>

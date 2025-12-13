@@ -1,5 +1,6 @@
 import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { FilterStatus } from '../hooks/useComplaintFilters'
 
 interface ComplaintFiltersProps {
@@ -15,6 +16,8 @@ export default function ComplaintFilters({
   statusFilter,
   onStatusFilterChange,
 }: ComplaintFiltersProps) {
+  const { t } = useTranslation('complaints')
+  
   return (
     <Box
       sx={{
@@ -26,7 +29,7 @@ export default function ComplaintFilters({
       }}
     >
       <TextField
-        placeholder="Search complaints..."
+        placeholder={t('searchPlaceholder')}
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         size="small"
@@ -50,10 +53,10 @@ export default function ComplaintFilters({
       />
 
       <FormControl size="small" sx={{ minWidth: 150 }}>
-        <InputLabel>Status</InputLabel>
+        <InputLabel>{t('status.label')}</InputLabel>
         <Select
           value={statusFilter}
-          label="Status"
+          label={t('status.label')}
           onChange={(e) => onStatusFilterChange(e.target.value as FilterStatus)}
           sx={{
             borderRadius: '0.5rem',
@@ -62,12 +65,12 @@ export default function ComplaintFilters({
             },
           }}
         >
-          <MenuItem value="All Status">All Status</MenuItem>
-          <MenuItem value="Pending">Pending</MenuItem>
-          <MenuItem value="UnderReview">Under Review</MenuItem>
-          <MenuItem value="InProgress">In Progress</MenuItem>
-          <MenuItem value="Resolved">Resolved</MenuItem>
-          <MenuItem value="Rejected">Rejected</MenuItem>
+          <MenuItem value="All Status">{t('status.allStatus')}</MenuItem>
+          <MenuItem value="Pending">{t('status.pending')}</MenuItem>
+          <MenuItem value="UnderReview">{t('status.underReview')}</MenuItem>
+          <MenuItem value="InProgress">{t('status.inProgress')}</MenuItem>
+          <MenuItem value="Resolved">{t('status.resolved')}</MenuItem>
+          <MenuItem value="Rejected">{t('status.rejected')}</MenuItem>
         </Select>
       </FormControl>
     </Box>

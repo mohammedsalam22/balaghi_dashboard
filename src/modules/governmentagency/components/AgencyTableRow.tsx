@@ -9,6 +9,8 @@ import {
 } from '@mui/material'
 import { Building2, Users, ChevronDown, ChevronRight, Edit2, Trash2 } from 'lucide-react'
 import { Fragment } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '../../../shared/contexts/LanguageContext'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import type { GovernmentAgency } from '../types'
 import AgencyEmployeesList from './AgencyEmployeesList'
@@ -28,6 +30,8 @@ export default function AgencyTableRow({
   onEdit,
   onDelete,
 }: AgencyTableRowProps) {
+  const { t } = useTranslation('governmentAgency')
+  const { direction } = useLanguage()
   const palette = usePalette()
   const employeeCount = agency.employees.length
 
@@ -59,8 +63,16 @@ export default function AgencyTableRow({
             {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
           </IconButton>
         </TableCell>
-        <TableCell>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <TableCell align={direction === 'rtl' ? 'right' : 'left'}>
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 1,
+              flexDirection: direction === 'rtl' ? 'row-reverse' : 'row',
+              justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start',
+            }}
+          >
             <Building2 size={18} style={{ color: palette.accent, flexShrink: 0 }} />
             <Typography variant="body1" sx={{ fontWeight: 500 }}>
               {agency.name}
@@ -70,7 +82,7 @@ export default function AgencyTableRow({
         <TableCell align="center">
           <Chip
             icon={<Users size={14} />}
-            label={`${employeeCount} ${employeeCount === 1 ? 'Employee' : 'Employees'}`}
+            label={`${employeeCount} ${employeeCount === 1 ? t('table.employee') : t('table.employeesPlural')}`}
             size="small"
             sx={{
               height: 24,
@@ -81,9 +93,14 @@ export default function AgencyTableRow({
             }}
           />
         </TableCell>
-        <TableCell align="right">
+        <TableCell align={direction === 'rtl' ? 'left' : 'right'}>
           <Box
-            sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}
+            sx={{ 
+              display: 'flex', 
+              gap: 0.5, 
+              justifyContent: direction === 'rtl' ? 'flex-start' : 'flex-end',
+              flexDirection: direction === 'rtl' ? 'row-reverse' : 'row',
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <IconButton

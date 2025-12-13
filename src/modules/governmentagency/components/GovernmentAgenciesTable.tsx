@@ -10,6 +10,8 @@ import {
   Typography,
 } from '@mui/material'
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '../../../shared/contexts/LanguageContext'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import type { GovernmentAgency } from '../types'
 import ConfirmationDialog from '../../../shared/components/ConfirmationDialog'
@@ -30,6 +32,8 @@ export default function GovernmentAgenciesTable({
   onAgencyDelete,
   onEmployeeDelete,
 }: GovernmentAgenciesTableProps) {
+  const { t } = useTranslation('governmentAgency')
+  const { direction } = useLanguage()
   const palette = usePalette()
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
@@ -70,7 +74,7 @@ export default function GovernmentAgenciesTable({
         }}
       >
         <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-          No government agencies found
+          {t('table.noAgencies')}
         </Typography>
       </Box>
     )
@@ -106,12 +110,14 @@ export default function GovernmentAgenciesTable({
               }}
             >
               <TableCell sx={{ width: 50 }}></TableCell>
-              <TableCell>Agency Name</TableCell>
-              <TableCell align="center" sx={{ width: 150 }}>
-                Employees
+              <TableCell align={direction === 'rtl' ? 'right' : 'left'}>
+                {t('table.agencyName')}
               </TableCell>
-              <TableCell align="right" sx={{ width: 120 }}>
-                Actions
+              <TableCell align="center" sx={{ width: 150 }}>
+                {t('table.employees')}
+              </TableCell>
+              <TableCell align={direction === 'rtl' ? 'left' : 'right'} sx={{ width: 120 }}>
+                {t('table.actions')}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -120,7 +126,7 @@ export default function GovernmentAgenciesTable({
               <TableRow>
                 <TableCell colSpan={4} align="center" sx={{ py: 4 }}>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    No agencies found matching "{searchQuery}"
+                    {t('table.noMatching', { query: searchQuery })}
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -143,10 +149,10 @@ export default function GovernmentAgenciesTable({
       {/* Delete Confirmation Dialog */}
       <ConfirmationDialog
         open={deleteConfirm.open}
-        title="Delete Agency"
-        message={`Are you sure you want to delete "${deleteConfirm.agencyName}"? This action cannot be undone.`}
-        confirmText="Delete"
-        cancelText="Cancel"
+        title={t('deleteConfirm.title')}
+        message={t('deleteConfirm.message', { name: deleteConfirm.agencyName })}
+        confirmText={t('deleteConfirm.confirm')}
+        cancelText={t('deleteConfirm.cancel')}
         confirmColor="error"
         onConfirm={handleDeleteConfirm}
         onCancel={handleDeleteCancel}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography, Container, Button } from '@mui/material'
 import { Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useGovernmentAgencies } from '../hooks/useGovernmentAgencies'
 import { useAppSelector } from '../../../shared/store/hooks'
 import GovernmentAgenciesTable from './GovernmentAgenciesTable'
@@ -9,6 +10,7 @@ import AgencyDialog from './AgencyDialog'
 import type { GovernmentAgency } from '../types'
 
 export default function GovernmentAgencyPage() {
+  const { t } = useTranslation('governmentAgency')
   const { agencies, loading, error, refetch } = useGovernmentAgencies()
   const reduxAgencies = useAppSelector((state) => state.governmentAgencies.agencies)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
@@ -54,7 +56,7 @@ export default function GovernmentAgencyPage() {
   if (loading) {
     return (
       <Box sx={{ p: 3 }}>
-        <Typography>Loading government agencies...</Typography>
+        <Typography>{t('loading')}</Typography>
       </Box>
     )
   }
@@ -62,7 +64,7 @@ export default function GovernmentAgencyPage() {
   if (error) {
     return (
       <Box sx={{ p: 3 }}>
-        <Typography color="error">Error loading government agencies: {error.message}</Typography>
+        <Typography color="error">{t('error', { message: error.message })}</Typography>
       </Box>
     )
   }
@@ -81,10 +83,10 @@ export default function GovernmentAgencyPage() {
       >
         <Box sx={{ flex: 1 }}>
           <Typography variant="h2" component="h2" sx={{ mb: 0.5, fontSize: '2rem', fontWeight: 700 }}>
-            Government Agencies
+            {t('title')}
           </Typography>
           <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1rem' }}>
-            View and manage all government agencies and their employees.
+            {t('description')}
           </Typography>
         </Box>
         <Button
@@ -97,7 +99,7 @@ export default function GovernmentAgencyPage() {
             flexShrink: 0,
           }}
         >
-          Add Agency
+          {t('addAgency')}
         </Button>
       </Box>
 

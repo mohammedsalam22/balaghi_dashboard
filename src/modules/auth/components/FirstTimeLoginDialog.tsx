@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { KeyRound, Lock, X, Check, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import { authService } from '../services/authService'
 
@@ -24,6 +25,7 @@ interface FirstTimeLoginDialogProps {
 }
 
 export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: FirstTimeLoginDialogProps) {
+  const { t } = useTranslation('auth')
   const palette = usePalette()
   const [code, setCode] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -50,22 +52,22 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
 
     // Validation
     if (!code.trim()) {
-      setError('Verification code is required')
+      setError(t('firstTimeLogin.codeRequired'))
       return
     }
 
     if (!newPassword.trim()) {
-      setError('New password is required')
+      setError(t('firstTimeLogin.passwordRequired'))
       return
     }
 
     if (newPassword.length < 8) {
-      setError('Password must be at least 8 characters long')
+      setError(t('firstTimeLogin.passwordMinLength'))
       return
     }
 
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('firstTimeLogin.passwordsNotMatch'))
       return
     }
 
@@ -75,7 +77,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
         code: code.trim(),
         newPassword: newPassword.trim(),
       })
-      setSuccess(response.message || 'Password has been successfully set. You can now log in.')
+      setSuccess(response.message || t('firstTimeLogin.successMessage'))
       
       // Close dialog after 2 seconds and trigger success callback
       setTimeout(() => {
@@ -83,7 +85,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
         onSuccess()
       }, 2000)
     } catch (err: any) {
-      setError(err.message || 'Failed to complete setup. Please check your code and try again.')
+      setError(err.message || t('firstTimeLogin.error'))
     } finally {
       setLoading(false)
     }
@@ -112,7 +114,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <KeyRound size={24} style={{ color: palette.accent }} />
           <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
-            First Time Login
+            {t('firstTimeLogin.title')}
           </Typography>
         </Box>
         <IconButton
@@ -148,18 +150,18 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
 
           <Stack spacing={2}>
             <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
-              Enter the verification code sent to your email and set a new password.
+              {t('firstTimeLogin.description')}
             </Typography>
 
             <TextField
               fullWidth
-              label="Verification Code"
+              label={t('firstTimeLogin.verificationCode')}
               value={code}
               onChange={(e) => {
                 setCode(e.target.value)
                 setError(null)
               }}
-              placeholder="Enter verification code"
+              placeholder={t('firstTimeLogin.verificationCode')}
               required
               error={!!error && !code.trim()}
               disabled={loading || !!success}
@@ -179,18 +181,18 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
 
             <TextField
               fullWidth
-              label="New Password"
+              label={t('firstTimeLogin.newPassword')}
               type={showPassword ? 'text' : 'password'}
               value={newPassword}
               onChange={(e) => {
                 setNewPassword(e.target.value)
                 setError(null)
               }}
-              placeholder="Enter new password"
+              placeholder={t('firstTimeLogin.newPassword')}
               required
               error={!!error && (!newPassword.trim() || newPassword.length < 8)}
               disabled={loading || !!success}
-              helperText={newPassword && newPassword.length < 8 ? 'Password must be at least 8 characters' : ''}
+              helperText={newPassword && newPassword.length < 8 ? t('firstTimeLogin.passwordMinLengthHelper') : ''}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '0.75rem',
@@ -219,20 +221,20 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
 
             <TextField
               fullWidth
-              label="Confirm Password"
+              label={t('firstTimeLogin.confirmPassword')}
               type={showConfirmPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value)
                 setError(null)
               }}
-              placeholder="Confirm new password"
+              placeholder={t('firstTimeLogin.confirmPassword')}
               required
               error={!!error && (newPassword !== confirmPassword || !confirmPassword.trim())}
               disabled={loading || !!success}
               helperText={
                 confirmPassword && newPassword !== confirmPassword
-                  ? 'Passwords do not match'
+                  ? t('firstTimeLogin.passwordsNotMatchHelper')
                   : ''
               }
               sx={{
@@ -279,7 +281,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
               borderRadius: '0.5rem',
             }}
           >
-            Cancel
+            {t('common:buttons.cancel')}
           </Button>
           <Button
             type="submit"
@@ -290,7 +292,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
               borderRadius: '0.5rem',
             }}
           >
-            {loading ? 'Setting Password...' : success ? 'Success!' : 'Complete Setup'}
+            {loading ? t('firstTimeLogin.settingPassword') : success ? t('firstTimeLogin.success') : t('firstTimeLogin.completeSetup')}
           </Button>
         </DialogActions>
       </Box>

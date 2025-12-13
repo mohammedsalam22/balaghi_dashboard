@@ -1,5 +1,7 @@
 import { Box, Typography, Stack } from '@mui/material'
 import { Users, Mail } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '../../../shared/contexts/LanguageContext'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import type { Employee } from '../types'
 
@@ -8,7 +10,10 @@ interface AgencyEmployeesListProps {
 }
 
 export default function AgencyEmployeesList({ employees }: AgencyEmployeesListProps) {
+  const { t } = useTranslation('governmentAgency')
+  const { direction } = useLanguage()
   const palette = usePalette()
+  
   if (employees.length === 0) {
     return (
       <Box
@@ -20,7 +25,7 @@ export default function AgencyEmployeesList({ employees }: AgencyEmployeesListPr
         }}
       >
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          No employees assigned to this agency
+          {t('detailsDialog.noEmployees')}
         </Typography>
       </Box>
     )
@@ -38,9 +43,10 @@ export default function AgencyEmployeesList({ employees }: AgencyEmployeesListPr
           letterSpacing: '0.05em',
           mb: 1,
           display: 'block',
+          textAlign: direction === 'rtl' ? 'right' : 'left',
         }}
       >
-        Employees
+        {t('detailsDialog.employees')}
       </Typography>
       {employees.map((employee) => (
         <Box
@@ -53,17 +59,47 @@ export default function AgencyEmployeesList({ employees }: AgencyEmployeesListPr
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            flexDirection: direction === 'rtl' ? 'row' : 'row',
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
-            <Users size={16} style={{ color: palette.mutedForeground }} />
-            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 1, 
+              flex: 1,
+              flexDirection: direction === 'rtl' ? 'row-reverse' : 'row',
+              justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start',
+            }}
+          >
+            <Users size={16} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                fontWeight: 500,
+                textAlign: direction === 'rtl' ? 'right' : 'left',
+              }}
+            >
               {employee.userName}
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Mail size={14} style={{ color: palette.mutedForeground }} />
-            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8125rem' }}>
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 0.5,
+              flexDirection: direction === 'rtl' ? 'row-reverse' : 'row',
+            }}
+          >
+            <Mail size={14} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: 'text.secondary', 
+                fontSize: '0.8125rem',
+                textAlign: direction === 'rtl' ? 'right' : 'left',
+              }}
+            >
               {employee.email}
             </Typography>
           </Box>

@@ -1,0 +1,39 @@
+{
+  "title": "شكاوى المواطنين",
+  "description": "مراقبة وإدارة جميع طلبات الخدمات المواطنية.",
+  "searchPlaceholder": "البحث في الشكاوى...",
+  "status": {
+    "label": "الحالة",
+    "allStatus": "جميع الحالات",
+    "pending": "قيد الانتظار",
+    "underReview": "قيد المراجعة",
+    "inProgress": "قيد التنفيذ",
+    "resolved": "تم الحل",
+    "rejected": "مرفوض"
+  },
+  "card": {
+    "attachments": "مرفق",
+    "attachmentsPlural": "مرفقات"
+  },
+  "details": {
+    "title": "تفاصيل الشكوى",
+    "description": "الوصف",
+    "complaintInformation": "معلومات الشكوى",
+    "complaintType": "نوع الشكوى",
+    "citizenName": "اسم المواطن",
+    "agency": "الجهة",
+    "createdAt": "تاريخ الإنشاء",
+    "attachments": "المرفقات",
+    "close": "إغلاق",
+    "statusUpdated": "تم تحديث الحالة بنجاح",
+    "changeStatus": "تغيير حالة الشكوى",
+    "changeStatusMessage": "هل أنت متأكد من تغيير الحالة من \"{{from}}\" إلى \"{{to}}\"?",
+    "changeStatusButton": "تغيير الحالة"
+  },
+  "empty": {
+    "noComplaints": "لا توجد شكاوى",
+    "noMatching": "لا توجد شكاوى تطابق \"{{query}}\""
+  },
+  "loading": "جاري تحميل الشكاوى...",
+  "error": "خطأ في تحميل الشكاوى: {{message}}"
+}

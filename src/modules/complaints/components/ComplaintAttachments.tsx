@@ -1,5 +1,6 @@
 import { Box, Typography, ImageList, ImageListItem, Button } from '@mui/material'
 import { Paperclip, FileText, Download } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import type { Complaint } from '../types'
 import { complaintService } from '../services/complaintService'
@@ -11,6 +12,7 @@ interface ComplaintAttachmentsProps {
 }
 
 export default function ComplaintAttachments({ attachments, attachmentsCount }: ComplaintAttachmentsProps) {
+  const { t } = useTranslation('complaints')
   const palette = usePalette()
   if (!attachments || attachments.length === 0) {
     return null
@@ -32,7 +34,7 @@ export default function ComplaintAttachments({ attachments, attachmentsCount }: 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Paperclip size={18} style={{ color: palette.mutedForeground }} />
         <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary' }}>
-          Attachments ({attachmentsCount})
+          {t('details.attachments')} ({attachmentsCount})
         </Typography>
       </Box>
       <ImageList cols={3} rowHeight={200} gap={12} sx={{ m: 0 }}>
@@ -132,7 +134,7 @@ export default function ComplaintAttachments({ attachments, attachmentsCount }: 
                       textTransform: 'none',
                     }}
                   >
-                    Download
+                    {t('common:buttons.download')}
                   </Button>
                 </Box>
               )}

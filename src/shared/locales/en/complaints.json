@@ -1,0 +1,39 @@
+{
+  "title": "Citizen Complaints",
+  "description": "Monitor and manage all citizen service requests.",
+  "searchPlaceholder": "Search complaints...",
+  "status": {
+    "label": "Status",
+    "allStatus": "All Status",
+    "pending": "Pending",
+    "underReview": "Under Review",
+    "inProgress": "In Progress",
+    "resolved": "Resolved",
+    "rejected": "Rejected"
+  },
+  "card": {
+    "attachments": "attachment",
+    "attachmentsPlural": "attachments"
+  },
+  "details": {
+    "title": "Complaint Details",
+    "description": "Description",
+    "complaintInformation": "Complaint Information",
+    "complaintType": "Complaint Type",
+    "citizenName": "Citizen Name",
+    "agency": "Agency",
+    "createdAt": "Created At",
+    "attachments": "Attachments",
+    "close": "Close",
+    "statusUpdated": "Status updated successfully",
+    "changeStatus": "Change Complaint Status",
+    "changeStatusMessage": "Are you sure you want to change the status from \"{{from}}\" to \"{{to}}\"?",
+    "changeStatusButton": "Change Status"
+  },
+  "empty": {
+    "noComplaints": "No complaints found",
+    "noMatching": "No complaints found matching \"{{query}}\""
+  },
+  "loading": "Loading complaints...",
+  "error": "Error loading complaints: {{message}}"
+}

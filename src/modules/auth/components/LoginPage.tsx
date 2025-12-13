@@ -16,6 +16,8 @@ import {
   Alert,
 } from '@mui/material'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '../../../shared/contexts/LanguageContext'
 import { usePalette } from '../../../shared/hooks/usePalette'
 import type { LoginCredentials } from '../types'
 import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
@@ -23,6 +25,8 @@ import { loginAsync, clearError } from '../slices/authSlice'
 import FirstTimeLoginDialog from './FirstTimeLoginDialog'
 
 export default function LoginPage() {
+  const { t } = useTranslation(['auth', 'common'])
+  const { direction } = useLanguage()
   const palette = usePalette()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -110,10 +114,10 @@ export default function LoginPage() {
                   color: 'text.primary',
                 }}
               >
-                Welcome Back
+                {t('auth:login.title')}
               </Typography>
               <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1rem' }}>
-                Sign in to your Civic Portal account
+                {t('auth:appSubtitle')}
               </Typography>
             </Box>
 
@@ -123,18 +127,18 @@ export default function LoginPage() {
                 {/* Error Alert */}
                 {error && (
                   <Alert severity="error" onClose={() => dispatch(clearError())}>
-                    {error}
+                    {error === 'Invalid credentials' ? t('auth:login.invalidCredentials') : t('auth:login.loginError')}
                   </Alert>
                 )}
 
                 {/* Email Field */}
                 <TextField
                   fullWidth
-                  label="Email Address"
+                  label={t('auth:login.email')}
                   type="email"
                   value={credentials.email}
                   onChange={handleChange('email')}
-                  placeholder="Enter your email"
+                  placeholder={t('auth:login.emailPlaceholder')}
                   required
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -162,11 +166,11 @@ export default function LoginPage() {
                 {/* Password Field */}
                 <TextField
                   fullWidth
-                  label="Password"
+                  label={t('auth:login.password')}
                   type={showPassword ? 'text' : 'password'}
                   value={credentials.password}
                   onChange={handleChange('password')}
-                  placeholder="Enter your password"
+                  placeholder={t('auth:login.passwordPlaceholder')}
                   required
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -180,11 +184,14 @@ export default function LoginPage() {
                       '&.Mui-focused fieldset': {
                         borderColor: 'primary.main',
                       },
+                      '& .MuiInputAdornment-root:first-of-type': {
+                        ...(direction === 'rtl' ? { marginRight: 0 } : { marginRight: 1 }),
+                      },
                     },
                   }}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">
+                      <InputAdornment position="start" sx={{ ...(direction === 'rtl' && { ml: 1 }) }}>
                         <Lock size={20} style={{ color: palette.mutedForeground }} />
                       </InputAdornment>
                     ),
@@ -216,7 +223,7 @@ export default function LoginPage() {
                       },
                     }}
                   >
-                    Forgot password?
+                    {t('auth:login.forgotPassword')}
                   </Link>
                 </Box>
 
@@ -252,7 +259,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  {isLoading ? 'Signing In...' : 'Sign In'}
+                  {isLoading ? t('auth:login.loggingIn') : t('auth:login.loginButton')}
                 </Button>
               </Stack>
             </Box>
@@ -260,7 +267,7 @@ export default function LoginPage() {
             {/* Divider */}
             <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', px: 2 }}>
-                OR
+                {t('auth:login.or')}
               </Typography>
             </Divider>
 
@@ -279,10 +286,10 @@ export default function LoginPage() {
                   },
                 }}
               >
-                First Time Login
+                {t('auth:login.firstTimeLogin')}
               </Button>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                Don't have an account?{' '}
+                {t('auth:login.noAccount')}{' '}
                 <Link
                   href="#"
                   sx={{
@@ -294,7 +301,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  Contact Administrator
+                  {t('auth:login.contactAdmin')}
                 </Link>
               </Typography>
             </Box>
@@ -304,7 +311,7 @@ export default function LoginPage() {
         {/* Footer */}
         <Box sx={{ textAlign: 'center', mt: 3 }}>
           <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-            © 2026 Civic Portal. All rights reserved.
+            {t('auth:login.copyright')}
           </Typography>
         </Box>
       </Container>
