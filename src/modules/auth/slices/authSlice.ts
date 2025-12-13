@@ -66,6 +66,7 @@ const authSlice = createSlice({
       state.expiresAt = null
       state.roles = []
       localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
       localStorage.removeItem('tokenExpiresAt')
       localStorage.removeItem('userRoles')
       // Clear auth token from apiService
@@ -82,7 +83,7 @@ const authSlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(loginAsync.fulfilled, (state, action: PayloadAction<{ accessToken: string; roles: string[]; accessTokenExpiresAt: string }>) => {
+      .addCase(loginAsync.fulfilled, (state, action: PayloadAction<{ accessToken: string; roles: string[]; refreshToken: string; accessTokenExpiresAt: string }>) => {
         state.isLoading = false
         state.isAuthenticated = true
         state.accessToken = action.payload.accessToken
@@ -91,6 +92,11 @@ const authSlice = createSlice({
         
         // Store token in localStorage
         localStorage.setItem('accessToken', action.payload.accessToken)
+        
+        // Store refresh token in localStorage
+        if (action.payload.refreshToken) {
+          localStorage.setItem('refreshToken', action.payload.refreshToken)
+        }
         
         // Store roles in localStorage
         localStorage.setItem('userRoles', JSON.stringify(action.payload.roles || []))
@@ -136,6 +142,7 @@ const authSlice = createSlice({
         state.roles = []
         state.error = (action.payload as string) || 'Token refresh failed'
         localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
         localStorage.removeItem('tokenExpiresAt')
         localStorage.removeItem('userRoles')
         

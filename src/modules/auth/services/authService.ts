@@ -33,11 +33,25 @@ export const authService = {
   },
 
   /**
-   * Refresh access token using refresh token from HTTP-only cookie
+   * Refresh access token using refresh token from localStorage
+   * Sends refresh token as Cookie header
    * Returns new accessToken and updates refreshToken cookie
    */
   refreshToken: async (): Promise<RefreshTokenResponse> => {
-    return apiService.post<RefreshTokenResponse>('/auth/refresh-token')
+    const refreshToken = localStorage.getItem('refreshToken')
+    if (!refreshToken) {
+      throw new Error('No refresh token available')
+    }
+    
+    return apiService.post<RefreshTokenResponse>(
+      '/auth/refresh-token',
+      {},
+      {
+        headers: {
+          Cookie: `refreshToken=${refreshToken}`,
+        },
+      }
+    )
   },
 
   /**
