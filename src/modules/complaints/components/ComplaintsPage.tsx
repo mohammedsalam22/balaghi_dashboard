@@ -5,14 +5,12 @@ import ComplaintFilters from './ComplaintFilters'
 import ComplaintsGrid from './ComplaintsGrid'
 
 export default function ComplaintsPage() {
-  const { complaints, loading, error } = useComplaints()
+  const { complaints, loading, error, refetch } = useComplaints()
   const {
     searchQuery,
     setSearchQuery,
     statusFilter,
     setStatusFilter,
-    priorityFilter,
-    setPriorityFilter,
     filteredComplaints,
   } = useComplaintFilters({ complaints })
 
@@ -50,12 +48,10 @@ export default function ComplaintsPage() {
         onSearchChange={setSearchQuery}
         statusFilter={statusFilter}
         onStatusFilterChange={setStatusFilter}
-        priorityFilter={priorityFilter}
-        onPriorityFilterChange={setPriorityFilter}
       />
 
       {/* Complaints Grid */}
-      <ComplaintsGrid complaints={filteredComplaints} />
+      <ComplaintsGrid complaints={filteredComplaints} onStatusUpdate={refetch} />
     </Container>
   )
 }

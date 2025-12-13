@@ -10,9 +10,10 @@ import {
   IconButton,
 } from '@mui/material'
 import { Building2, Plus, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
 import { lightPalette } from '../../../theme'
-import { governmentAgencyService } from '../services/governmentAgencyService'
+import { createAgencyAsync } from '../slices/governmentAgenciesSlice'
 
 interface AddAgencyDialogProps {
   open: boolean
@@ -21,9 +22,17 @@ interface AddAgencyDialogProps {
 }
 
 export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyDialogProps) {
+  const dispatch = useAppDispatch()
+  const { error: reduxError, isLoading } = useAppSelector((state) => state.governmentAgencies)
   const [name, setName] = useState('')
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Sync error from Redux
+  useEffect(() => {
+    if (reduxError) {
+      setError(reduxError)
+    }
+  }, [reduxError])
 
   const handleClose = () => {
     setName('')
@@ -38,15 +47,17 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
     }
 
     try {
-      setLoading(true)
       setError(null)
-      await governmentAgencyService.create({ name: name.trim() })
+      const result = await dispatch(createAgencyAsync({ name: name.trim() }))
+      
+      if (createAgencyAsync.fulfilled.match(result)) {
       handleClose()
       onSuccess()
+      } else {
+        setError(result.payload as string || 'Failed to create agency')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create agency')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -154,7 +165,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
       >
         <Button
           onClick={handleClose}
-          disabled={loading}
+          disabled={isLoading}
           variant="outlined"
           sx={{
             textTransform: 'none',
@@ -166,7 +177,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
         <Button
           startIcon={<Plus size={18} />}
           onClick={handleSubmit}
-          disabled={loading || !name.trim()}
+          disabled={isLoading || !name.trim()}
           variant="contained"
           sx={{
             textTransform: 'none',

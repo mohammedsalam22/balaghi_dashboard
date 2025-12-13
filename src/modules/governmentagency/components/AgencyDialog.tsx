@@ -13,9 +13,15 @@ import {
 } from '@mui/material'
 import { Building2, Users, Mail, Edit2, Trash2, X, Plus, Check, XCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
 import { lightPalette } from '../../../theme'
 import type { GovernmentAgency } from '../types'
-import { governmentAgencyService } from '../services/governmentAgencyService'
+import {
+  updateAgencyAsync,
+  deleteAgencyAsync,
+  inviteEmployeeAsync,
+  deleteEmployeeAsync,
+} from '../slices/governmentAgenciesSlice'
 import ConfirmationDialog from '../../../shared/components/ConfirmationDialog'
 
 interface AgencyDialogProps {
@@ -27,9 +33,11 @@ interface AgencyDialogProps {
 }
 
 export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete }: AgencyDialogProps) {
+  const dispatch = useAppDispatch()
+  const { error: reduxError, isLoading } = useAppSelector((state) => state.governmentAgencies)
+  
   const [isEditing, setIsEditing] = useState(false)
   const [name, setName] = useState('')
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showAddEmployee, setShowAddEmployee] = useState(false)
   const [employeeEmail, setEmployeeEmail] = useState('')
@@ -71,6 +79,13 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
     }
   }, [agency])
 
+  // Sync error from Redux
+  useEffect(() => {
+    if (reduxError) {
+      setError(reduxError)
+    }
+  }, [reduxError])
+
   const handleEdit = () => {
     if (agency) {
       setName(agency.name)
@@ -88,22 +103,25 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
   }
 
   const handleSave = async () => {
-    if (!agency || !name.trim()) {
+    if (!agency?.id || !name.trim()) {
       setError('Agency name is required')
       return
     }
 
+    const agencyId = agency.id
     try {
-      setLoading(true)
       setError(null)
-      await governmentAgencyService.update(agency.id, { name: name.trim() })
-      setIsEditing(false)
-      onUpdate()
-      onClose()
+      const result = await dispatch(updateAgencyAsync({ id: agencyId, data: { name: name.trim() } }))
+      
+      if (updateAgencyAsync.fulfilled.match(result)) {
+        setIsEditing(false)
+        onUpdate()
+        onClose()
+      } else {
+        setError(result.payload as string || 'Failed to update agency')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update agency')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -116,16 +134,18 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
       message: `Are you sure you want to delete "${agency.name}"? This action cannot be undone.`,
       onConfirm: async () => {
         try {
-          setLoading(true)
           setError(null)
-          await governmentAgencyService.delete(agency.id)
-          setConfirmDialog({ ...confirmDialog, open: false })
-          onDelete()
-          onClose()
+          const result = await dispatch(deleteAgencyAsync(agency.id))
+          
+          if (deleteAgencyAsync.fulfilled.match(result)) {
+            setConfirmDialog({ ...confirmDialog, open: false })
+            onDelete()
+            onClose()
+          } else {
+            setError(result.payload as string || 'Failed to delete agency')
+          }
         } catch (err) {
           setError(err instanceof Error ? err.message : 'Failed to delete agency')
-        } finally {
-          setLoading(false)
         }
       },
     })
@@ -164,19 +184,26 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
       setInviteLoading(true)
       setInviteError(null)
       setInviteSuccess(null)
-      const response = await governmentAgencyService.inviteEmployee({
-        agencyId: agency.id,
-        fullName: employeeName.trim(),
-        email: employeeEmail.trim(),
-      })
-      setInviteSuccess(response.message || 'Employee invitation sent successfully')
-      setEmployeeEmail('')
-      setEmployeeName('')
-      // Refresh the agency data after a short delay to show success message
-      setTimeout(() => {
-        setShowAddEmployee(false)
-        onUpdate()
-      }, 2000)
+      const result = await dispatch(
+        inviteEmployeeAsync({
+          agencyId: agency.id,
+          fullName: employeeName.trim(),
+          email: employeeEmail.trim(),
+        })
+      )
+      
+      if (inviteEmployeeAsync.fulfilled.match(result)) {
+        setInviteSuccess(result.payload.message || 'Employee invitation sent successfully')
+        setEmployeeEmail('')
+        setEmployeeName('')
+        // Refresh the agency data after a short delay to show success message
+        setTimeout(() => {
+          setShowAddEmployee(false)
+          onUpdate()
+        }, 2000)
+      } else {
+        setInviteError(result.payload as string || 'Failed to invite employee')
+      }
     } catch (err) {
       setInviteError(err instanceof Error ? err.message : 'Failed to invite employee')
     } finally {
@@ -195,9 +222,14 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
         try {
           setDeletingEmployeeId(employeeId)
           setError(null)
-          await governmentAgencyService.deleteEmployee(employeeId)
-          setConfirmDialog({ ...confirmDialog, open: false })
-          onUpdate()
+          const result = await dispatch(deleteEmployeeAsync(employeeId))
+          
+          if (deleteEmployeeAsync.fulfilled.match(result)) {
+            setConfirmDialog({ ...confirmDialog, open: false })
+            onUpdate()
+          } else {
+            setError(result.payload as string || 'Failed to delete employee')
+          }
         } catch (err) {
           setError(err instanceof Error ? err.message : 'Failed to delete employee')
         } finally {
@@ -503,7 +535,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                     </Typography>
                     <IconButton
                       onClick={() => handleDeleteEmployee(employee.id, employee.userName)}
-                      disabled={deletingEmployeeId === employee.id || loading}
+                      disabled={deletingEmployeeId === employee.id || isLoading}
                       size="small"
                       sx={{
                         color: lightPalette.destructive,
@@ -556,7 +588,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
         <Button
           startIcon={<Trash2 size={18} />}
           onClick={handleDelete}
-          disabled={loading}
+          disabled={isLoading}
           color="error"
           variant="outlined"
           sx={{
@@ -571,7 +603,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
             <>
               <Button
                 onClick={handleCancel}
-                disabled={loading}
+                disabled={isLoading}
                 variant="outlined"
                 sx={{
                   textTransform: 'none',
@@ -583,7 +615,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
               <Button
                 startIcon={<Edit2 size={18} />}
                 onClick={handleSave}
-                disabled={loading || !name.trim()}
+                disabled={isLoading || !name.trim()}
                 variant="contained"
                 sx={{
                   textTransform: 'none',
@@ -619,7 +651,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
         confirmColor="error"
         onConfirm={confirmDialog.onConfirm}
         onCancel={() => setConfirmDialog({ ...confirmDialog, open: false })}
-        loading={loading || deletingEmployeeId !== null}
+        loading={isLoading || deletingEmployeeId !== null}
       />
     </Dialog>
   )

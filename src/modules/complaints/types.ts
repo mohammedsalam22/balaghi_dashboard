@@ -1,15 +1,23 @@
 // Complaint types
-export type ComplaintStatus = 'Pending' | 'In Progress' | 'Resolved'
-export type ComplaintPriority = 'Low' | 'Medium' | 'High'
+export type ComplaintStatus = 'Pending' | 'UnderReview' | 'InProgress' | 'Resolved' | 'Rejected'
+
+export interface ComplaintAttachment {
+  id: string
+  fileName: string
+  url: string
+  contentType: string
+  uploadedAt: string
+}
 
 export interface Complaint {
   id: string
-  category: string
-  status: ComplaintStatus
-  priority: ComplaintPriority
-  title: string
+  trackingNumber: string
+  complaintType: string
   description: string
-  reporter: string
-  location: string
-  date: string
+  citizenName: string
+  agencyName: string
+  status: ComplaintStatus
+  createdAt: string
+  attachmentsCount: number
+  attachments: ComplaintAttachment[]
 }

@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from '../../modules/auth/slices/authSlice'
+import complaintsReducer from '../../modules/complaints/slices/complaintsSlice'
+import governmentAgenciesReducer from '../../modules/governmentagency/slices/governmentAgenciesSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    complaints: complaintsReducer,
+    governmentAgencies: governmentAgenciesReducer,
   },
 })
 

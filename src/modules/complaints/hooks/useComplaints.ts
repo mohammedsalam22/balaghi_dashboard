@@ -1,34 +1,28 @@
-import { useState, useEffect } from 'react'
-import type { Complaint } from '../types'
-import { complaintService } from '../services/complaintService'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
+import { fetchComplaintsAsync } from '../slices/complaintsSlice'
 
 export function useComplaints() {
-  const [complaints, setComplaints] = useState<Complaint[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const dispatch = useAppDispatch()
+  const { complaints, isLoading, error } = useAppSelector((state) => state.complaints)
 
   useEffect(() => {
-    loadComplaints()
-  }, [])
-
-  const loadComplaints = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-      const data = await complaintService.getAll()
-      setComplaints(data)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to load complaints'))
-    } finally {
-      setLoading(false)
+    // Fetch complaints on mount if we don't have any
+    if (complaints.length === 0 && !isLoading) {
+      dispatch(fetchComplaintsAsync())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run on mount
+
+  const refetch = () => {
+    dispatch(fetchComplaintsAsync())
   }
 
   return {
     complaints,
-    loading,
-    error,
-    refetch: loadComplaints,
+    loading: isLoading,
+    error: error ? new Error(error) : null,
+    refetch,
   }
 }
 

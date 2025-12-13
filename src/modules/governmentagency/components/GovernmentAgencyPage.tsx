@@ -1,17 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Typography, Container, Button } from '@mui/material'
 import { Plus } from 'lucide-react'
 import { useGovernmentAgencies } from '../hooks/useGovernmentAgencies'
-import GovernmentAgencyGrid from './GovernmentAgencyGrid'
+import { useAppSelector } from '../../../shared/store/hooks'
+import GovernmentAgenciesTable from './GovernmentAgenciesTable'
 import AddAgencyDialog from './AddAgencyDialog'
 import AgencyDialog from './AgencyDialog'
 import type { GovernmentAgency } from '../types'
 
 export default function GovernmentAgencyPage() {
   const { agencies, loading, error, refetch } = useGovernmentAgencies()
+  const reduxAgencies = useAppSelector((state) => state.governmentAgencies.agencies)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [selectedAgency, setSelectedAgency] = useState<GovernmentAgency | null>(null)
   const [agencyDialogOpen, setAgencyDialogOpen] = useState(false)
+
+  // Sync selectedAgency with Redux state when it updates
+  useEffect(() => {
+    if (selectedAgency && reduxAgencies.length > 0) {
+      const updatedAgency = reduxAgencies.find((a) => a.id === selectedAgency.id)
+      if (updatedAgency) {
+        setSelectedAgency(updatedAgency)
+      }
+    }
+  }, [reduxAgencies, selectedAgency?.id])
 
   const handleAddAgency = () => {
     setAddDialogOpen(true)
@@ -89,8 +101,13 @@ export default function GovernmentAgencyPage() {
         </Button>
       </Box>
 
-      {/* Agencies Grid */}
-      <GovernmentAgencyGrid agencies={agencies} onAgencyClick={handleAgencyClick} />
+      {/* Agencies Table */}
+      <GovernmentAgenciesTable
+        agencies={agencies}
+        onAgencyEdit={handleAgencyClick}
+        onAgencyDelete={handleDeleteSuccess}
+        onEmployeeDelete={handleUpdateSuccess}
+      />
 
       {/* Add Agency Dialog */}
       <AddAgencyDialog

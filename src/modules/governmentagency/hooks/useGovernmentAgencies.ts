@@ -1,34 +1,28 @@
-import { useState, useEffect } from 'react'
-import type { GovernmentAgency } from '../types'
-import { governmentAgencyService } from '../services/governmentAgencyService'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
+import { fetchAgenciesAsync } from '../slices/governmentAgenciesSlice'
 
 export function useGovernmentAgencies() {
-  const [agencies, setAgencies] = useState<GovernmentAgency[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const dispatch = useAppDispatch()
+  const { agencies, isLoading, error } = useAppSelector((state) => state.governmentAgencies)
 
   useEffect(() => {
-    loadAgencies()
-  }, [])
-
-  const loadAgencies = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-      const data = await governmentAgencyService.getAll()
-      setAgencies(data)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to load government agencies'))
-    } finally {
-      setLoading(false)
+    // Fetch agencies on mount if we don't have any
+    if (agencies.length === 0 && !isLoading) {
+      dispatch(fetchAgenciesAsync())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run on mount
+
+  const refetch = () => {
+    dispatch(fetchAgenciesAsync())
   }
 
   return {
     agencies,
-    loading,
-    error,
-    refetch: loadAgencies,
+    loading: isLoading,
+    error: error ? new Error(error) : null,
+    refetch,
   }
 }
 

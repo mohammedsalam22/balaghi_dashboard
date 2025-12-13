@@ -1,14 +1,12 @@
 import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { Search } from 'lucide-react'
-import type { FilterStatus, FilterPriority } from '../hooks/useComplaintFilters'
+import type { FilterStatus } from '../hooks/useComplaintFilters'
 
 interface ComplaintFiltersProps {
   searchQuery: string
   onSearchChange: (query: string) => void
   statusFilter: FilterStatus
   onStatusFilterChange: (status: FilterStatus) => void
-  priorityFilter: FilterPriority
-  onPriorityFilterChange: (priority: FilterPriority) => void
 }
 
 export default function ComplaintFilters({
@@ -16,8 +14,6 @@ export default function ComplaintFilters({
   onSearchChange,
   statusFilter,
   onStatusFilterChange,
-  priorityFilter,
-  onPriorityFilterChange,
 }: ComplaintFiltersProps) {
   return (
     <Box
@@ -68,28 +64,10 @@ export default function ComplaintFilters({
         >
           <MenuItem value="All Status">All Status</MenuItem>
           <MenuItem value="Pending">Pending</MenuItem>
-          <MenuItem value="In Progress">In Progress</MenuItem>
+          <MenuItem value="UnderReview">Under Review</MenuItem>
+          <MenuItem value="InProgress">In Progress</MenuItem>
           <MenuItem value="Resolved">Resolved</MenuItem>
-        </Select>
-      </FormControl>
-
-      <FormControl size="small" sx={{ minWidth: 150 }}>
-        <InputLabel>Priority</InputLabel>
-        <Select
-          value={priorityFilter}
-          label="Priority"
-          onChange={(e) => onPriorityFilterChange(e.target.value as FilterPriority)}
-          sx={{
-            borderRadius: '0.5rem',
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'divider',
-            },
-          }}
-        >
-          <MenuItem value="All Priority">All Priority</MenuItem>
-          <MenuItem value="Low">Low</MenuItem>
-          <MenuItem value="Medium">Medium</MenuItem>
-          <MenuItem value="High">High</MenuItem>
+          <MenuItem value="Rejected">Rejected</MenuItem>
         </Select>
       </FormControl>
     </Box>

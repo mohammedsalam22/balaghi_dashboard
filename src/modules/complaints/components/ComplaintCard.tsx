@@ -1,63 +1,44 @@
+import { useState } from 'react'
 import { Card, CardContent, Typography, Box, Chip, Stack } from '@mui/material'
-import { User, MapPin, Calendar } from 'lucide-react'
+import { User, Building2, Calendar, Paperclip } from 'lucide-react'
 import { lightPalette } from '../../../theme'
 import type { Complaint } from '../types'
+import ComplaintDetailsDialog from './ComplaintDetailsDialog'
+import { statusConfig, formatDateShort } from '../utils/complaintUtils'
 
 interface ComplaintCardProps {
   complaint: Complaint
+  onStatusUpdate?: () => void
 }
 
-const statusConfig = {
-  Pending: {
-    label: 'Pending',
-    color: lightPalette.statusPending,
-    backgroundColor: `${lightPalette.statusPending}33`, // 20% opacity
-  },
-  'In Progress': {
-    label: 'In Progress',
-    color: lightPalette.statusProgress,
-    backgroundColor: `${lightPalette.statusProgress}33`,
-  },
-  Resolved: {
-    label: 'Resolved',
-    color: lightPalette.statusResolved,
-    backgroundColor: `${lightPalette.statusResolved}33`,
-  },
-}
 
-const priorityConfig = {
-  Low: {
-    label: 'Low',
-    color: lightPalette.mutedForeground,
-    backgroundColor: lightPalette.muted,
-  },
-  Medium: {
-    label: 'Medium',
-    color: lightPalette.accent,
-    backgroundColor: `${lightPalette.accent}33`,
-  },
-  High: {
-    label: 'High',
-    color: lightPalette.destructive,
-    backgroundColor: `${lightPalette.destructive}33`,
-  },
-}
-
-export default function ComplaintCard({ complaint }: ComplaintCardProps) {
+export default function ComplaintCard({ complaint, onStatusUpdate }: ComplaintCardProps) {
+  const [dialogOpen, setDialogOpen] = useState(false)
   const status = statusConfig[complaint.status]
-  const priority = priorityConfig[complaint.priority]
+
+  const handleCardClick = () => {
+    setDialogOpen(true)
+  }
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false)
+  }
 
   return (
+    <>
     <Card
+        onClick={handleCardClick}
       sx={{
         transition: 'all 0.2s',
+          cursor: 'pointer',
         '&:hover': {
           transform: 'translateY(-2px)',
+            boxShadow: 4,
         },
       }}
     >
       <CardContent sx={{ p: 1.5 }}>
-        {/* Header with ID and Tags */}
+        {/* Header with Tracking Number and Tags */}
         <Box
           sx={{
             display: 'flex',
@@ -77,12 +58,12 @@ export default function ComplaintCard({ complaint }: ComplaintCardProps) {
               whiteSpace: 'nowrap',
             }}
           >
-            {complaint.id}
+            {complaint.trackingNumber}
           </Typography>
 
           <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             <Chip
-              label={complaint.category}
+              label={complaint.complaintType}
               size="small"
               sx={{
                 height: 20,
@@ -103,40 +84,15 @@ export default function ComplaintCard({ complaint }: ComplaintCardProps) {
                 color: status.color,
               }}
             />
-            <Chip
-              label={priority.label}
-              size="small"
-              sx={{
-                height: 20,
-                fontSize: '0.75rem',
-                fontWeight: 500,
-                backgroundColor: priority.backgroundColor,
-                color: priority.color,
-              }}
-            />
           </Stack>
         </Box>
-
-        {/* Title */}
-        <Typography
-          variant="h3"
-          component="h3"
-          sx={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
-            mb: 0.75,
-            lineHeight: 1.4,
-          }}
-        >
-          {complaint.title}
-        </Typography>
 
         {/* Description */}
         <Typography
           variant="body1"
           sx={{
             fontSize: '0.9375rem',
-            color: 'text.secondary',
+            color: 'text.primary',
             mb: 1.25,
             lineHeight: 1.5,
             display: '-webkit-box',
@@ -147,6 +103,16 @@ export default function ComplaintCard({ complaint }: ComplaintCardProps) {
         >
           {complaint.description}
         </Typography>
+
+        {/* Attachments Indicator */}
+        {complaint.attachments && complaint.attachments.length > 0 && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1.25 }}>
+            <Paperclip size={14} style={{ color: lightPalette.mutedForeground }} />
+            <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', fontWeight: 500 }}>
+              {complaint.attachmentsCount} {complaint.attachmentsCount === 1 ? 'attachment' : 'attachments'}
+            </Typography>
+          </Box>
+        )}
 
         {/* Footer with Info */}
         <Box
@@ -162,26 +128,34 @@ export default function ComplaintCard({ complaint }: ComplaintCardProps) {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <User size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
             <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
-              {complaint.reporter}
+              {complaint.citizenName}
             </Typography>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <MapPin size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+            <Building2 size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
             <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
-              {complaint.location}
+              {complaint.agencyName}
             </Typography>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Calendar size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
             <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
-              {complaint.date}
+              {formatDateShort(complaint.createdAt)}
             </Typography>
           </Box>
         </Box>
       </CardContent>
     </Card>
+
+    <ComplaintDetailsDialog
+      open={dialogOpen}
+      onClose={handleCloseDialog}
+      complaint={complaint}
+      onStatusUpdate={onStatusUpdate}
+    />
+    </>
   )
 }
 

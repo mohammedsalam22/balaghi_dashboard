@@ -1,48 +1,43 @@
 import { useState, useMemo } from 'react'
-import type { Complaint, ComplaintStatus, ComplaintPriority } from '../types'
+import type { Complaint, ComplaintStatus } from '../types'
 
 export type FilterStatus = ComplaintStatus | 'All Status'
-export type FilterPriority = ComplaintPriority | 'All Priority'
 
 interface UseComplaintFiltersProps {
   complaints: Complaint[]
   initialSearchQuery?: string
   initialStatusFilter?: FilterStatus
-  initialPriorityFilter?: FilterPriority
 }
 
 export function useComplaintFilters({
   complaints,
   initialSearchQuery = '',
   initialStatusFilter = 'All Status',
-  initialPriorityFilter = 'All Priority',
 }: UseComplaintFiltersProps) {
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery)
   const [statusFilter, setStatusFilter] = useState<FilterStatus>(initialStatusFilter)
-  const [priorityFilter, setPriorityFilter] = useState<FilterPriority>(initialPriorityFilter)
 
   const filteredComplaints = useMemo(() => {
     return complaints.filter((complaint) => {
+      const searchLower = searchQuery.toLowerCase()
       const matchesSearch =
-        complaint.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        complaint.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        complaint.reporter.toLowerCase().includes(searchQuery.toLowerCase())
+        complaint.trackingNumber.toLowerCase().includes(searchLower) ||
+        complaint.complaintType.toLowerCase().includes(searchLower) ||
+        complaint.description.toLowerCase().includes(searchLower) ||
+        complaint.citizenName.toLowerCase().includes(searchLower) ||
+        complaint.agencyName.toLowerCase().includes(searchLower)
 
       const matchesStatus = statusFilter === 'All Status' || complaint.status === statusFilter
-      const matchesPriority = priorityFilter === 'All Priority' || complaint.priority === priorityFilter
 
-      return matchesSearch && matchesStatus && matchesPriority
+      return matchesSearch && matchesStatus
     })
-  }, [complaints, searchQuery, statusFilter, priorityFilter])
+  }, [complaints, searchQuery, statusFilter])
 
   return {
     searchQuery,
     setSearchQuery,
     statusFilter,
     setStatusFilter,
-    priorityFilter,
-    setPriorityFilter,
     filteredComplaints,
   }
 }
-
