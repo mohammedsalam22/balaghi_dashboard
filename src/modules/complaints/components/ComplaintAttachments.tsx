@@ -1,6 +1,6 @@
 import { Box, Typography, ImageList, ImageListItem, Button } from '@mui/material'
 import { Paperclip, FileText, Download } from 'lucide-react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { Complaint } from '../types'
 import { complaintService } from '../services/complaintService'
 import { isImageFile } from '../utils/complaintUtils'
@@ -11,6 +11,7 @@ interface ComplaintAttachmentsProps {
 }
 
 export default function ComplaintAttachments({ attachments, attachmentsCount }: ComplaintAttachmentsProps) {
+  const palette = usePalette()
   if (!attachments || attachments.length === 0) {
     return null
   }
@@ -29,7 +30,7 @@ export default function ComplaintAttachments({ attachments, attachmentsCount }: 
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Paperclip size={18} style={{ color: lightPalette.mutedForeground }} />
+        <Paperclip size={18} style={{ color: palette.mutedForeground }} />
         <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary' }}>
           Attachments ({attachmentsCount})
         </Typography>
@@ -104,12 +105,12 @@ export default function ComplaintAttachments({ attachments, attachmentsCount }: 
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: lightPalette.muted,
+                    backgroundColor: palette.muted,
                     p: 2,
                     gap: 1,
                   }}
                 >
-                  <FileText size={32} style={{ color: lightPalette.mutedForeground }} />
+                  <FileText size={32} style={{ color: palette.mutedForeground }} />
                   <Typography
                     variant="body2"
                     sx={{

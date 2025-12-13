@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useState, useMemo } from 'react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { GovernmentAgency } from '../types'
 import ConfirmationDialog from '../../../shared/components/ConfirmationDialog'
 import AgencySearchBar from './AgencySearchBar'
@@ -30,6 +30,7 @@ export default function GovernmentAgenciesTable({
   onAgencyDelete,
   onEmployeeDelete,
 }: GovernmentAgenciesTableProps) {
+  const palette = usePalette()
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
   
@@ -85,7 +86,7 @@ export default function GovernmentAgenciesTable({
         component={Paper}
         sx={{
           borderRadius: '0.75rem',
-          border: `1px solid ${lightPalette.border}`,
+          border: `1px solid ${palette.border}`,
           overflow: 'hidden',
         }}
       >
@@ -93,14 +94,14 @@ export default function GovernmentAgenciesTable({
           <TableHead>
             <TableRow
               sx={{
-                backgroundColor: lightPalette.muted,
+                backgroundColor: palette.muted,
                 '& th': {
                   fontWeight: 600,
                   fontSize: '0.875rem',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   color: 'text.secondary',
-                  borderBottom: `1px solid ${lightPalette.border}`,
+                  borderBottom: `1px solid ${palette.border}`,
                 },
               }}
             >

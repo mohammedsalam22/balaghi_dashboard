@@ -12,7 +12,7 @@ import {
 import { Building2, Plus, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import { createAgencyAsync } from '../slices/governmentAgenciesSlice'
 
 interface AddAgencyDialogProps {
@@ -22,6 +22,7 @@ interface AddAgencyDialogProps {
 }
 
 export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyDialogProps) {
+  const palette = usePalette()
   const dispatch = useAppDispatch()
   const { error: reduxError, isLoading } = useAppSelector((state) => state.governmentAgencies)
   const [name, setName] = useState('')
@@ -82,7 +83,7 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Building2 size={24} style={{ color: lightPalette.accent }} />
+          <Building2 size={24} style={{ color: palette.accent }} />
           <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
             Add New Agency
           </Typography>
@@ -107,11 +108,11 @@ export default function AddAgencyDialog({ open, onClose, onSuccess }: AddAgencyD
               p: 1.5,
               mb: 2,
               borderRadius: '0.5rem',
-              backgroundColor: lightPalette.destructive + '20',
-              border: `1px solid ${lightPalette.destructive}`,
+              backgroundColor: palette.destructive + '20',
+              border: `1px solid ${palette.destructive}`,
             }}
           >
-            <Typography variant="body2" sx={{ color: lightPalette.destructive }}>
+            <Typography variant="body2" sx={{ color: palette.destructive }}>
               {error}
             </Typography>
           </Box>

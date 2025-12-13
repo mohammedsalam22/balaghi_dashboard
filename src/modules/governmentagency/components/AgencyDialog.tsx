@@ -14,7 +14,7 @@ import {
 import { Building2, Users, Mail, Edit2, Trash2, X, Plus, Check, XCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { GovernmentAgency } from '../types'
 import {
   updateAgencyAsync,
@@ -33,6 +33,7 @@ interface AgencyDialogProps {
 }
 
 export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete }: AgencyDialogProps) {
+  const palette = usePalette()
   const dispatch = useAppDispatch()
   const { error: reduxError, isLoading } = useAppSelector((state) => state.governmentAgencies)
   
@@ -264,7 +265,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Building2 size={24} style={{ color: lightPalette.accent }} />
+          <Building2 size={24} style={{ color: palette.accent }} />
           <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
             Agency Details
           </Typography>
@@ -289,11 +290,11 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
               p: 1.5,
               mb: 2,
               borderRadius: '0.5rem',
-              backgroundColor: lightPalette.destructive + '20',
-              border: `1px solid ${lightPalette.destructive}`,
+              backgroundColor: palette.destructive + '20',
+              border: `1px solid ${palette.destructive}`,
             }}
           >
-            <Typography variant="body2" sx={{ color: lightPalette.destructive }}>
+            <Typography variant="body2" sx={{ color: palette.destructive }}>
               {error}
             </Typography>
           </Box>
@@ -333,7 +334,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
               sx={{
                 p: 1.5,
                 borderRadius: '0.5rem',
-                backgroundColor: lightPalette.muted,
+                backgroundColor: palette.muted,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1,
@@ -386,8 +387,8 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                 p: 2,
                 mb: 2,
                 borderRadius: '0.5rem',
-                backgroundColor: lightPalette.muted,
-                border: `1px solid ${lightPalette.border}`,
+                backgroundColor: palette.muted,
+                border: `1px solid ${palette.border}`,
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
@@ -413,15 +414,15 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                     p: 1,
                     mb: 1.5,
                     borderRadius: '0.5rem',
-                    backgroundColor: lightPalette.destructive + '20',
-                    border: `1px solid ${lightPalette.destructive}`,
+                    backgroundColor: palette.destructive + '20',
+                    border: `1px solid ${palette.destructive}`,
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
                   }}
                 >
-                  <XCircle size={16} style={{ color: lightPalette.destructive, flexShrink: 0 }} />
-                  <Typography variant="body2" sx={{ fontSize: '0.8125rem', color: lightPalette.destructive }}>
+                  <XCircle size={16} style={{ color: palette.destructive, flexShrink: 0 }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.8125rem', color: palette.destructive }}>
                     {inviteError}
                   </Typography>
                 </Box>
@@ -433,15 +434,15 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                     p: 1,
                     mb: 1.5,
                     borderRadius: '0.5rem',
-                    backgroundColor: lightPalette.statusResolved + '20',
-                    border: `1px solid ${lightPalette.statusResolved}`,
+                    backgroundColor: palette.statusResolved + '20',
+                    border: `1px solid ${palette.statusResolved}`,
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
                   }}
                 >
-                  <Check size={16} style={{ color: lightPalette.statusResolved, flexShrink: 0 }} />
-                  <Typography variant="body2" sx={{ fontSize: '0.8125rem', color: lightPalette.statusResolved }}>
+                  <Check size={16} style={{ color: palette.statusResolved, flexShrink: 0 }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.8125rem', color: palette.statusResolved }}>
                     {inviteSuccess}
                   </Typography>
                 </Box>
@@ -523,13 +524,13 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                   sx={{
                     p: 1.5,
                     borderRadius: '0.5rem',
-                    backgroundColor: lightPalette.muted,
-                    border: `1px solid ${lightPalette.border}`,
+                    backgroundColor: palette.muted,
+                    border: `1px solid ${palette.border}`,
                     position: 'relative',
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.75 }}>
-                    <Users size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+                    <Users size={16} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
                     <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 500, flex: 1 }}>
                       {employee.userName}
                     </Typography>
@@ -538,9 +539,9 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                       disabled={deletingEmployeeId === employee.id || isLoading}
                       size="small"
                       sx={{
-                        color: lightPalette.destructive,
+                        color: palette.destructive,
                         '&:hover': {
-                          backgroundColor: lightPalette.destructive + '20',
+                          backgroundColor: palette.destructive + '20',
                         },
                         '&:disabled': {
                           opacity: 0.5,
@@ -552,7 +553,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
                     </IconButton>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Mail size={14} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+                    <Mail size={14} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
                     <Typography variant="body2" sx={{ fontSize: '0.8125rem', color: 'text.secondary' }}>
                       {employee.email}
                     </Typography>
@@ -565,7 +566,7 @@ export default function AgencyDialog({ open, agency, onClose, onUpdate, onDelete
               sx={{
                 p: 2,
                 borderRadius: '0.5rem',
-                backgroundColor: lightPalette.muted,
+                backgroundColor: palette.muted,
                 textAlign: 'center',
               }}
             >

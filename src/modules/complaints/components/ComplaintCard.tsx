@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, Typography, Box, Chip, Stack } from '@mui/material'
 import { User, Building2, Calendar, Paperclip } from 'lucide-react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { Complaint } from '../types'
 import ComplaintDetailsDialog from './ComplaintDetailsDialog'
 import { statusConfig, formatDateShort } from '../utils/complaintUtils'
@@ -13,6 +13,7 @@ interface ComplaintCardProps {
 
 
 export default function ComplaintCard({ complaint, onStatusUpdate }: ComplaintCardProps) {
+  const palette = usePalette()
   const [dialogOpen, setDialogOpen] = useState(false)
   const status = statusConfig[complaint.status]
 
@@ -69,8 +70,8 @@ export default function ComplaintCard({ complaint, onStatusUpdate }: ComplaintCa
                 height: 20,
                 fontSize: '0.75rem',
                 fontWeight: 500,
-                backgroundColor: lightPalette.muted,
-                color: lightPalette.mutedForeground,
+                backgroundColor: palette.muted,
+                color: palette.mutedForeground,
               }}
             />
             <Chip
@@ -107,7 +108,7 @@ export default function ComplaintCard({ complaint, onStatusUpdate }: ComplaintCa
         {/* Attachments Indicator */}
         {complaint.attachments && complaint.attachments.length > 0 && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1.25 }}>
-            <Paperclip size={14} style={{ color: lightPalette.mutedForeground }} />
+            <Paperclip size={14} style={{ color: palette.mutedForeground }} />
             <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', fontWeight: 500 }}>
               {complaint.attachmentsCount} {complaint.attachmentsCount === 1 ? 'attachment' : 'attachments'}
             </Typography>
@@ -126,21 +127,21 @@ export default function ComplaintCard({ complaint, onStatusUpdate }: ComplaintCa
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <User size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+            <User size={16} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
             <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
               {complaint.citizenName}
             </Typography>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Building2 size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+            <Building2 size={16} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
             <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
               {complaint.agencyName}
             </Typography>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Calendar size={16} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+            <Calendar size={16} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
             <Typography variant="body2" sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
               {formatDateShort(complaint.createdAt)}
             </Typography>

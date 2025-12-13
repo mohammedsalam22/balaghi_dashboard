@@ -16,13 +16,14 @@ import {
   Alert,
 } from '@mui/material'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { LoginCredentials } from '../types'
 import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
 import { loginAsync, clearError } from '../slices/authSlice'
 import FirstTimeLoginDialog from './FirstTimeLoginDialog'
 
 export default function LoginPage() {
+  const palette = usePalette()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth)
@@ -68,12 +69,12 @@ export default function LoginPage() {
   }, [isAuthenticated, navigate])
 
   // Extract RGB values from theme primary color for gradient
-  // lightPalette.primary is in format "rgb(r, g, b)"
+  // palette.primary is in format "rgb(r, g, b)"
   const extractRgb = (rgbString: string): string => {
     const match = rgbString.match(/\d+/g)
     return match ? match.join(', ') : '59, 130, 246'
   }
-  const primaryColorRgb = extractRgb(lightPalette.primary)
+  const primaryColorRgb = extractRgb(palette.primary)
 
   return (
     <Box
@@ -93,7 +94,7 @@ export default function LoginPage() {
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1)',
             borderRadius: '1rem',
             overflow: 'hidden',
-            border: `1px solid ${lightPalette.border}`,
+            border: `1px solid ${palette.border}`,
           }}
         >
           <CardContent sx={{ p: 4 }}>
@@ -152,7 +153,7 @@ export default function LoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Mail size={20} style={{ color: lightPalette.mutedForeground }} />
+                        <Mail size={20} style={{ color: palette.mutedForeground }} />
                       </InputAdornment>
                     ),
                   }}
@@ -184,7 +185,7 @@ export default function LoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Lock size={20} style={{ color: lightPalette.mutedForeground }} />
+                        <Lock size={20} style={{ color: palette.mutedForeground }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -238,7 +239,7 @@ export default function LoginPage() {
                     boxShadow: `0 1px 3px rgba(${primaryColorRgb}, 0.3), 0 4px 12px rgba(${primaryColorRgb}, 0.2)`,
                     transition: 'all 0.2s ease',
                     '&:hover': {
-                      backgroundColor: lightPalette.accent,
+                      backgroundColor: palette.accent,
                       boxShadow: `0 4px 6px rgba(${primaryColorRgb}, 0.3), 0 6px 16px rgba(${primaryColorRgb}, 0.25)`,
                       transform: 'translateY(-1px)',
                     },

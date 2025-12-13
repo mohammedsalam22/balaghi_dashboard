@@ -10,7 +10,7 @@ import {
   IconButton,
 } from '@mui/material'
 import { AlertTriangle, X } from 'lucide-react'
-import { lightPalette } from '../../theme'
+import { usePalette } from '../hooks/usePalette'
 
 interface ConfirmationDialogProps {
   open: boolean
@@ -35,6 +35,7 @@ export default function ConfirmationDialog({
   onCancel,
   loading = false,
 }: ConfirmationDialogProps) {
+  const palette = usePalette()
   return (
     <Dialog
       open={open}
@@ -56,7 +57,7 @@ export default function ConfirmationDialog({
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <AlertTriangle size={24} style={{ color: lightPalette.destructive }} />
+          <AlertTriangle size={24} style={{ color: palette.destructive }} />
           <Typography variant="h2" sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
             {title}
           </Typography>

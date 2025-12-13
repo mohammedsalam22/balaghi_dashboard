@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { Building2, Users, ChevronDown, ChevronRight, Edit2, Trash2 } from 'lucide-react'
 import { Fragment } from 'react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { GovernmentAgency } from '../types'
 import AgencyEmployeesList from './AgencyEmployeesList'
 
@@ -28,6 +28,7 @@ export default function AgencyTableRow({
   onEdit,
   onDelete,
 }: AgencyTableRowProps) {
+  const palette = usePalette()
   const employeeCount = agency.employees.length
 
   return (
@@ -35,7 +36,7 @@ export default function AgencyTableRow({
       <TableRow
         sx={{
           '&:hover': {
-            backgroundColor: lightPalette.muted + '40',
+            backgroundColor: palette.muted + '40',
           },
           cursor: 'pointer',
         }}
@@ -49,7 +50,7 @@ export default function AgencyTableRow({
               onToggleExpand()
             }}
             sx={{
-              color: lightPalette.mutedForeground,
+              color: palette.mutedForeground,
               '&:hover': {
                 backgroundColor: 'action.hover',
               },
@@ -60,7 +61,7 @@ export default function AgencyTableRow({
         </TableCell>
         <TableCell>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Building2 size={18} style={{ color: lightPalette.accent, flexShrink: 0 }} />
+            <Building2 size={18} style={{ color: palette.accent, flexShrink: 0 }} />
             <Typography variant="body1" sx={{ fontWeight: 500 }}>
               {agency.name}
             </Typography>
@@ -75,8 +76,8 @@ export default function AgencyTableRow({
               height: 24,
               fontSize: '0.75rem',
               fontWeight: 500,
-              backgroundColor: lightPalette.accent + '33',
-              color: lightPalette.accent,
+              backgroundColor: palette.accent + '33',
+              color: palette.accent,
             }}
           />
         </TableCell>
@@ -89,9 +90,9 @@ export default function AgencyTableRow({
               size="small"
               onClick={() => onEdit(agency)}
               sx={{
-                color: lightPalette.accent,
+                color: palette.accent,
                 '&:hover': {
-                  backgroundColor: lightPalette.accent + '20',
+                  backgroundColor: palette.accent + '20',
                 },
               }}
               title="Edit agency"
@@ -102,9 +103,9 @@ export default function AgencyTableRow({
               size="small"
               onClick={() => onDelete(agency)}
               sx={{
-                color: lightPalette.destructive,
+                color: palette.destructive,
                 '&:hover': {
-                  backgroundColor: lightPalette.destructive + '20',
+                  backgroundColor: palette.destructive + '20',
                 },
               }}
               title="Delete agency"
@@ -121,7 +122,7 @@ export default function AgencyTableRow({
           colSpan={4}
         >
           <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-            <Box sx={{ p: 2, backgroundColor: lightPalette.muted + '20' }}>
+            <Box sx={{ p: 2, backgroundColor: palette.muted + '20' }}>
               <AgencyEmployeesList employees={agency.employees} />
             </Box>
           </Collapse>

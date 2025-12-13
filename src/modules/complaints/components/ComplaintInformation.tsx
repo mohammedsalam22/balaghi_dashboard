@@ -1,6 +1,6 @@
 import { Box, Typography, Stack } from '@mui/material'
 import { User, Building2, Calendar, Tag } from 'lucide-react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { Complaint } from '../types'
 import { formatDate } from '../utils/complaintUtils'
 
@@ -9,6 +9,7 @@ interface ComplaintInformationProps {
 }
 
 export default function ComplaintInformation({ complaint }: ComplaintInformationProps) {
+  const palette = usePalette()
   return (
     <Box sx={{ mb: 3 }}>
       <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 600, mb: 2, color: 'text.secondary' }}>
@@ -16,7 +17,7 @@ export default function ComplaintInformation({ complaint }: ComplaintInformation
       </Typography>
       <Stack spacing={2}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Tag size={18} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+          <Tag size={18} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
           <Box>
             <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', mb: 0.25 }}>
               Complaint Type
@@ -28,7 +29,7 @@ export default function ComplaintInformation({ complaint }: ComplaintInformation
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <User size={18} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+          <User size={18} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
           <Box>
             <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', mb: 0.25 }}>
               Citizen Name
@@ -40,7 +41,7 @@ export default function ComplaintInformation({ complaint }: ComplaintInformation
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Building2 size={18} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+          <Building2 size={18} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
           <Box>
             <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', mb: 0.25 }}>
               Agency
@@ -52,7 +53,7 @@ export default function ComplaintInformation({ complaint }: ComplaintInformation
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Calendar size={18} style={{ color: lightPalette.mutedForeground, flexShrink: 0 }} />
+          <Calendar size={18} style={{ color: palette.mutedForeground, flexShrink: 0 }} />
           <Box>
             <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary', mb: 0.25 }}>
               Created At

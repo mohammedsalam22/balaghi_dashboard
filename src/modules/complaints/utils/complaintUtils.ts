@@ -1,6 +1,40 @@
-import { lightPalette } from '../../../theme'
 import type { ComplaintStatus } from '../types'
+import { usePalette } from '../../../shared/hooks/usePalette'
 
+// Hook to get status config based on current theme
+export function useStatusConfig() {
+  const palette = usePalette()
+  return {
+    Pending: {
+      label: 'Pending',
+      color: palette.statusPending,
+      backgroundColor: `${palette.statusPending}33`,
+    },
+    UnderReview: {
+      label: 'Under Review',
+      color: palette.statusProgress || palette.accent,
+      backgroundColor: `${palette.statusProgress || palette.accent}33`,
+    },
+    InProgress: {
+      label: 'In Progress',
+      color: palette.statusProgress,
+      backgroundColor: `${palette.statusProgress}33`,
+    },
+    Resolved: {
+      label: 'Resolved',
+      color: palette.statusResolved,
+      backgroundColor: `${palette.statusResolved}33`,
+    },
+    Rejected: {
+      label: 'Rejected',
+      color: palette.destructive,
+      backgroundColor: `${palette.destructive}33`,
+    },
+  } as const
+}
+
+// Static config for backward compatibility (light mode)
+import { lightPalette } from '../../../theme'
 export const statusConfig = {
   Pending: {
     label: 'Pending',

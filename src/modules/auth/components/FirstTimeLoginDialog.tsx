@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import { KeyRound, Lock, X, Check, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import { authService } from '../services/authService'
 
 interface FirstTimeLoginDialogProps {
@@ -24,6 +24,7 @@ interface FirstTimeLoginDialogProps {
 }
 
 export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: FirstTimeLoginDialogProps) {
+  const palette = usePalette()
   const [code, setCode] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -109,7 +110,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <KeyRound size={24} style={{ color: lightPalette.accent }} />
+          <KeyRound size={24} style={{ color: palette.accent }} />
           <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
             First Time Login
           </Typography>
@@ -170,7 +171,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <KeyRound size={20} style={{ color: lightPalette.mutedForeground }} />
+                    <KeyRound size={20} style={{ color: palette.mutedForeground }} />
                   </InputAdornment>
                 ),
               }}
@@ -198,7 +199,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Lock size={20} style={{ color: lightPalette.mutedForeground }} />
+                    <Lock size={20} style={{ color: palette.mutedForeground }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
@@ -242,7 +243,7 @@ export default function FirstTimeLoginDialog({ open, onClose, onSuccess }: First
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Lock size={20} style={{ color: lightPalette.mutedForeground }} />
+                    <Lock size={20} style={{ color: palette.mutedForeground }} />
                   </InputAdornment>
                 ),
                 endAdornment: (

@@ -1,6 +1,6 @@
 import { Box, Chip, FormControl, InputLabel, Select, MenuItem, Typography, CircularProgress } from '@mui/material'
 import type { ComplaintStatus } from '../types'
-import { statusConfig, statusOptions } from '../utils/complaintUtils'
+import { useStatusConfig, statusOptions } from '../utils/complaintUtils'
 
 interface ComplaintStatusSelectorProps {
   currentStatus: ComplaintStatus
@@ -15,6 +15,8 @@ export default function ComplaintStatusSelector({
   canEdit,
   isUpdating,
 }: ComplaintStatusSelectorProps) {
+  const statusConfig = useStatusConfig()
+  
   if (!canEdit) {
     return (
       <Chip

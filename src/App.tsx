@@ -1,7 +1,5 @@
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { theme } from './theme'
+import { ThemeProvider } from './shared/contexts/ThemeContext'
 import LoginPage from './modules/auth/components/LoginPage'
 import DashboardPage from './modules/dashboard/components/DashboardPage'
 import ComplaintsPage from './modules/complaints/components/ComplaintsPage'
@@ -14,8 +12,7 @@ import MainLayout from './shared/layouts/MainLayout'
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <ThemeProvider>
       <BrowserRouter>
         <Routes>
           {/* Public routes */}

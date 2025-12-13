@@ -1,6 +1,6 @@
 import { Box, Typography, Stack } from '@mui/material'
 import { Users, Mail } from 'lucide-react'
-import { lightPalette } from '../../../theme'
+import { usePalette } from '../../../shared/hooks/usePalette'
 import type { Employee } from '../types'
 
 interface AgencyEmployeesListProps {
@@ -8,6 +8,7 @@ interface AgencyEmployeesListProps {
 }
 
 export default function AgencyEmployeesList({ employees }: AgencyEmployeesListProps) {
+  const palette = usePalette()
   if (employees.length === 0) {
     return (
       <Box
@@ -48,20 +49,20 @@ export default function AgencyEmployeesList({ employees }: AgencyEmployeesListPr
             p: 1.5,
             borderRadius: '0.5rem',
             backgroundColor: 'background.paper',
-            border: `1px solid ${lightPalette.border}`,
+            border: `1px solid ${palette.border}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
-            <Users size={16} style={{ color: lightPalette.mutedForeground }} />
+            <Users size={16} style={{ color: palette.mutedForeground }} />
             <Typography variant="body2" sx={{ fontWeight: 500 }}>
               {employee.userName}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Mail size={14} style={{ color: lightPalette.mutedForeground }} />
+            <Mail size={14} style={{ color: palette.mutedForeground }} />
             <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8125rem' }}>
               {employee.email}
             </Typography>
