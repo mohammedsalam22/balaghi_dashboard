@@ -1,0 +1,48 @@
+{
+  "title": "المواطنون",
+  "description": "إدارة حسابات المواطنين والسجلات",
+  "loading": "جاري التحميل...",
+  "error": "خطأ: {{message}}",
+  "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني...",
+  "actions": {
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط"
+  },
+  "filters": {
+    "all": "الكل",
+    "emailVerified": "التحقق من البريد",
+    "verified": "مُوثّق",
+    "notVerified": "غير مُوثّق"
+  },
+  "sort": {
+    "label": "الترتيب حسب",
+    "createdAtDesc": "الأحدث أولاً",
+    "createdAtAsc": "الأقدم أولاً",
+    "fullNameAsc": "الاسم (أ–ي)",
+    "fullNameDesc": "الاسم (ي–أ)",
+    "emailAsc": "البريد (A–Z)",
+    "emailDesc": "البريد (Z–A)"
+  },
+  "pagination": {
+    "rowsPerPage": "عدد الصفوف في الصفحة:",
+    "displayedRows": "{{from}}–{{to}} من {{count}}",
+    "displayedRowsMoreThan": "{{from}}–{{to}} من أكثر من {{moreThan}}",
+    "aria": {
+      "first": "الانتقال إلى الصفحة الأولى",
+      "last": "الانتقال إلى الصفحة الأخيرة",
+      "next": "الانتقال إلى الصفحة التالية",
+      "previous": "الانتقال إلى الصفحة السابقة"
+    }
+  },
+  "table": {
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "emailVerified": "تم التحقق من البريد",
+    "createdAt": "تاريخ الإنشاء",
+    "verified": "مُوثّق",
+    "notVerified": "غير مُوثّق",
+    "noCitizens": "لا يوجد مواطنون",
+    "noMatching": "لا توجد نتائج مطابقة لـ \"{{query}}\""
+  }
+}
+

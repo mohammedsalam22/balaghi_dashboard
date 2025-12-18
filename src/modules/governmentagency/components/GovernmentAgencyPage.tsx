@@ -7,6 +7,7 @@ import { useAppSelector } from '../../../shared/store/hooks'
 import GovernmentAgenciesTable from './GovernmentAgenciesTable'
 import AddAgencyDialog from './AddAgencyDialog'
 import AgencyDialog from './AgencyDialog'
+import GovernmentAgencySkeleton from './GovernmentAgencySkeleton'
 import type { GovernmentAgency } from '../types'
 
 export default function GovernmentAgencyPage() {
@@ -54,11 +55,7 @@ export default function GovernmentAgencyPage() {
   }
 
   if (loading) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Typography>{t('loading')}</Typography>
-      </Box>
-    )
+    return <GovernmentAgencySkeleton />
   }
 
   if (error) {

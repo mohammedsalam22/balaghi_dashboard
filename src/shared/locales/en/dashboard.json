@@ -1,0 +1,31 @@
+{
+  "title": "Dashboard",
+  "description": "Overview and quick insights",
+  "loading": "Loading...",
+  "error": "Error: {{message}}",
+  "kpis": {
+    "totalComplaints": "Total complaints",
+    "openComplaints": "Open complaints",
+    "resolvedComplaints": "Resolved",
+    "rejectedComplaints": "Rejected",
+    "totalCitizens": "Total citizens",
+    "totalAgencies": "Government agencies",
+    "totalEmployees": "Employees"
+  },
+  "charts": {
+    "complaintsByStatus": "Complaints by status",
+    "complaintsTrend": "Complaints trend (last 14 days)"
+  },
+  "recent": {
+    "title": "Recent complaints",
+    "trackingNumber": "Tracking #",
+    "citizen": "Citizen",
+    "agency": "Agency",
+    "status": "Status",
+    "createdAt": "Created"
+  },
+  "employee": {
+    "title": "Dashboard",
+    "description": "Welcome to your dashboard"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Citizens",
+  "description": "Manage citizen accounts and records",
+  "loading": "Loading...",
+  "error": "Error: {{message}}",
+  "searchPlaceholder": "Search by name or email...",
+  "actions": {
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+  "filters": {
+    "all": "All",
+    "emailVerified": "Email verification",
+    "verified": "Verified",
+    "notVerified": "Not verified"
+  },
+  "sort": {
+    "label": "Sort by",
+    "createdAtDesc": "Newest first",
+    "createdAtAsc": "Oldest first",
+    "fullNameAsc": "Full name (A–Z)",
+    "fullNameDesc": "Full name (Z–A)",
+    "emailAsc": "Email (A–Z)",
+    "emailDesc": "Email (Z–A)"
+  },
+  "pagination": {
+    "rowsPerPage": "Rows per page:",
+    "displayedRows": "{{from}}–{{to}} of {{count}}",
+    "displayedRowsMoreThan": "{{from}}–{{to}} of more than {{moreThan}}",
+    "aria": {
+      "first": "Go to first page",
+      "last": "Go to last page",
+      "next": "Go to next page",
+      "previous": "Go to previous page"
+    }
+  },
+  "table": {
+    "fullName": "Full name",
+    "email": "Email",
+    "emailVerified": "Email verified",
+    "createdAt": "Created at",
+    "verified": "Verified",
+    "notVerified": "Not verified",
+    "noCitizens": "No citizens found",
+    "noMatching": "No matching citizens for \"{{query}}\""
+  }
+}
+

@@ -4,6 +4,7 @@ import { useComplaints } from '../hooks/useComplaints'
 import { useComplaintFilters } from '../hooks/useComplaintFilters'
 import ComplaintFilters from './ComplaintFilters'
 import ComplaintsGrid from './ComplaintsGrid'
+import ComplaintsSkeleton from './ComplaintsSkeleton'
 
 export default function ComplaintsPage() {
   const { t } = useTranslation('complaints')
@@ -17,11 +18,7 @@ export default function ComplaintsPage() {
   } = useComplaintFilters({ complaints })
 
   if (loading) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Typography>{t('loading')}</Typography>
-      </Box>
-    )
+    return <ComplaintsSkeleton />
   }
 
   if (error) {

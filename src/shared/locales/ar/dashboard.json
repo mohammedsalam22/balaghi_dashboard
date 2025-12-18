@@ -1,0 +1,31 @@
+{
+  "title": "لوحة التحكم",
+  "description": "نظرة عامة ومؤشرات سريعة",
+  "loading": "جاري التحميل...",
+  "error": "خطأ: {{message}}",
+  "kpis": {
+    "totalComplaints": "إجمالي الشكاوى",
+    "openComplaints": "الشكاوى المفتوحة",
+    "resolvedComplaints": "تم الحل",
+    "rejectedComplaints": "مرفوض",
+    "totalCitizens": "إجمالي المواطنين",
+    "totalAgencies": "الجهات الحكومية",
+    "totalEmployees": "الموظفون"
+  },
+  "charts": {
+    "complaintsByStatus": "الشكاوى حسب الحالة",
+    "complaintsTrend": "اتجاه الشكاوى (آخر 14 يومًا)"
+  },
+  "recent": {
+    "title": "أحدث الشكاوى",
+    "trackingNumber": "رقم التتبع",
+    "citizen": "المواطن",
+    "agency": "الجهة",
+    "status": "الحالة",
+    "createdAt": "تاريخ الإنشاء"
+  },
+  "employee": {
+    "title": "لوحة التحكم",
+    "description": "مرحبًا بك في لوحة التحكم"
+  }
+}
