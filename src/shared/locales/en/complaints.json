@@ -34,6 +34,11 @@
     "noComplaints": "No complaints found",
     "noMatching": "No complaints found matching \"{{query}}\""
   },
+  "summary": {
+    "title": "Summary",
+    "total": "Total: {{value}}",
+    "showing": "Showing: {{value}}"
+  },
   "loading": "Loading complaints...",
   "error": "Error loading complaints: {{message}}"
 }

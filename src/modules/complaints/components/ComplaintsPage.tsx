@@ -5,6 +5,7 @@ import { useComplaintFilters } from '../hooks/useComplaintFilters'
 import ComplaintFilters from './ComplaintFilters'
 import ComplaintsGrid from './ComplaintsGrid'
 import ComplaintsSkeleton from './ComplaintsSkeleton'
+import ComplaintsSummary from './ComplaintsSummary'
 
 export default function ComplaintsPage() {
   const { t } = useTranslation('complaints')
@@ -47,6 +48,13 @@ export default function ComplaintsPage() {
         onSearchChange={setSearchQuery}
         statusFilter={statusFilter}
         onStatusFilterChange={setStatusFilter}
+      />
+
+      {/* Summary */}
+      <ComplaintsSummary
+        totalComplaints={complaints}
+        visibleComplaints={filteredComplaints}
+        isFiltered={searchQuery.trim().length > 0 || statusFilter !== 'All Status'}
       />
 
       {/* Complaints Grid */}
