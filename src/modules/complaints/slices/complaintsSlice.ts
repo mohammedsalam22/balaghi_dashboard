@@ -8,21 +8,25 @@ interface ComplaintsState {
   complaints: Complaint[]
   isLoading: boolean
   error: string | null
+  fetchedForIsAdmin: boolean | null
 }
 
 const initialState: ComplaintsState = {
   complaints: [],
   isLoading: false,
   error: null,
+  fetchedForIsAdmin: null,
 }
 
 // Async thunk for fetching complaints
 export const fetchComplaintsAsync = createAsyncThunk(
   'complaints/fetchComplaints',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const complaints = await complaintService.getAll()
-      return complaints
+      const state = getState() as RootState
+      const isAdmin = (state.auth.roles || []).includes('Admin')
+      const complaints = await complaintService.getAll({ isAdmin })
+      return { complaints, isAdmin }
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch complaints')
     }
@@ -34,9 +38,14 @@ export const updateComplaintStatusAsync = createAsyncThunk(
   'complaints/updateStatus',
   async ({ id, status }: { id: string; status: ComplaintStatus }, { rejectWithValue, getState }) => {
     try {
+      const state = getState() as RootState
+      const isAdmin = (state.auth.roles || []).includes('Admin')
+      if (isAdmin) {
+        return rejectWithValue('Admins are not allowed to update complaint status')
+      }
+
       await complaintService.updateStatus(id, status)
       // Return the updated complaint data
-      const state = getState() as RootState
       const complaint = state.complaints.complaints.find((c) => c.id === id)
       if (complaint) {
         return { id, status, complaint: { ...complaint, status } }
@@ -69,9 +78,10 @@ const complaintsSlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(fetchComplaintsAsync.fulfilled, (state, action: PayloadAction<Complaint[]>) => {
+      .addCase(fetchComplaintsAsync.fulfilled, (state, action: PayloadAction<{ complaints: Complaint[]; isAdmin: boolean }>) => {
         state.isLoading = false
-        state.complaints = action.payload
+        state.complaints = action.payload.complaints
+        state.fetchedForIsAdmin = action.payload.isAdmin
         state.error = null
       })
       .addCase(fetchComplaintsAsync.rejected, (state, action) => {

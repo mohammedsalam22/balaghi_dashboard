@@ -24,7 +24,7 @@ export default function ComplaintDetailsDialog({ open, onClose, complaint, onSta
   const { roles } = useAppSelector((state) => state.auth)
   const [currentStatus, setCurrentStatus] = useState<ComplaintStatus | null>(null)
 
-  const canEditStatus = roles.includes('Employee') || roles.includes('Admin')
+  const canEditStatus = roles.includes('Employee')
 
   // Initialize current status when complaint changes
   useEffect(() => {

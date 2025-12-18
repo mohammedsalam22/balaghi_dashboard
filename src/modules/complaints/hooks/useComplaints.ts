@@ -4,15 +4,15 @@ import { fetchComplaintsAsync } from '../slices/complaintsSlice'
 
 export function useComplaints() {
   const dispatch = useAppDispatch()
-  const { complaints, isLoading, error } = useAppSelector((state) => state.complaints)
+  const { complaints, isLoading, error, fetchedForIsAdmin } = useAppSelector((state) => state.complaints)
+  const isAdmin = useAppSelector((state) => (state.auth.roles || []).includes('Admin'))
 
   useEffect(() => {
-    // Fetch complaints on mount if we don't have any
-    if (complaints.length === 0 && !isLoading) {
+    // Fetch complaints on mount, and refetch if role changed (admin vs employee)
+    if (!isLoading && (complaints.length === 0 || fetchedForIsAdmin === null || fetchedForIsAdmin !== isAdmin)) {
       dispatch(fetchComplaintsAsync())
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Only run on mount
+  }, [dispatch, complaints.length, fetchedForIsAdmin, isAdmin, isLoading])
 
   const refetch = () => {
     dispatch(fetchComplaintsAsync())

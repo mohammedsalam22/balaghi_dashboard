@@ -7,9 +7,10 @@ export interface ComplaintsResponse {
 }
 
 export const complaintService = {
-  getAll: async (): Promise<Complaint[]> => {
+  getAll: async (options?: { isAdmin?: boolean }): Promise<Complaint[]> => {
     try {
-      const response = await apiService.get<Complaint[]>('/complaints/my-agency')
+      const endpoint = options?.isAdmin ? '/complaints/GetAllByAdmin' : '/complaints/my-agency'
+      const response = await apiService.get<Complaint[]>(endpoint)
       return response || []
     } catch (error) {
       console.error('Error fetching complaints:', error)
@@ -17,9 +18,9 @@ export const complaintService = {
     }
   },
 
-  getById: async (id: string): Promise<Complaint | undefined> => {
+  getById: async (id: string, options?: { isAdmin?: boolean }): Promise<Complaint | undefined> => {
     try {
-      const complaints = await complaintService.getAll()
+      const complaints = await complaintService.getAll(options)
       return complaints.find((complaint) => complaint.id === id)
     } catch (error) {
       console.error('Error fetching complaint:', error)
