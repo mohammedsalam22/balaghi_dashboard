@@ -2,12 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppBar as MuiAppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Divider } from '@mui/material'
 import { Menu as MenuIcon } from '@mui/icons-material'
-import { Bell, User, LogOut, Sun, Moon } from 'lucide-react'
+import { Bell, User, LogOut } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../store/hooks'
 import { logout } from '../../modules/auth/slices/authSlice'
-import { useTheme } from '../contexts/ThemeContext'
-import LanguageSwitcher from './LanguageSwitcher'
 
 interface AppBarProps {
   onMenuClick: () => void
@@ -17,7 +15,6 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
   const { t } = useTranslation(['auth', 'common'])
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { mode, toggleMode } = useTheme()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -68,21 +65,6 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
         </Box>
 
         <Box sx={{ display: 'flex', gap: 0.75, alignItems: 'center' }}>
-          <LanguageSwitcher />
-
-          <IconButton
-            color="inherit"
-            onClick={toggleMode}
-            sx={{
-              '&:hover': {
-                backgroundColor: 'action.hover',
-              },
-            }}
-            title={mode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-          >
-            {mode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-          </IconButton>
-
           <IconButton
             color="inherit"
             sx={{

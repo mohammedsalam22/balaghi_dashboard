@@ -37,7 +37,11 @@
     "success": "تمت العملية بنجاح",
     "error": "حدث خطأ",
     "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
-    "cannotUndo": "لا يمكن التراجع عن هذا الإجراء"
+    "cannotUndo": "لا يمكن التراجع عن هذا الإجراء",
+    "settingsDescription": "تخصيص تفضيلات التطبيق",
+    "chooseLanguage": "اختر لغتك المفضلة",
+    "chooseTheme": "اختر المظهر الفاتح أو الداكن",
+    "accountActions": "إدارة جلسة المستخدم"
   },
   "labels": {
     "name": "الاسم",
@@ -52,7 +56,9 @@
     "account": "الحساب",
     "settings": "الإعدادات",
     "language": "اللغة",
-    "theme": "المظهر"
+    "theme": "المظهر",
+    "darkMode": "الوضع الداكن",
+    "lightMode": "الوضع الفاتح"
   },
   "placeholders": {
     "search": "بحث...",
