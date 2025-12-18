@@ -23,7 +23,7 @@ export default function AppSidebar({ open }: AppSidebarProps) {
 
   // All navigation items with their required roles
   const allNavigationItems = [
-    { icon: <HomeIcon size={20} />, labelKey: 'dashboard', path: '/dashboard', roles: ['Admin', 'Employee'] },
+    { icon: <HomeIcon size={20} />, labelKey: 'dashboard', path: '/dashboard', roles: ['Admin'] },
     { icon: <FileText size={20} />, labelKey: 'complaints', path: '/complaints', roles: ['Admin', 'Employee'] },
     { icon: <Users size={20} />, labelKey: 'citizens', path: '/citizens', roles: ['Admin'] },
     { icon: <Building2 size={20} />, labelKey: 'governmentAgencies', path: '/government-agency', roles: ['Admin'] },

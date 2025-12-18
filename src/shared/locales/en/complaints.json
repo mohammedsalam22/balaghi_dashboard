@@ -11,6 +11,10 @@
     "resolved": "Resolved",
     "rejected": "Rejected"
   },
+  "filters": {
+    "agency": "Agency",
+    "allAgencies": "All agencies"
+  },
   "card": {
     "attachments": "attachment",
     "attachmentsPlural": "attachments"

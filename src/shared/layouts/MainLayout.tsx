@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import { useLanguage } from '../contexts/LanguageContext'
 import AppBar from '../components/AppBar'
 import AppSidebar from '../components/AppSidebar'
+import { useAppSelector } from '../store/hooks'
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -10,17 +11,23 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const { direction } = useLanguage()
+  const { roles } = useAppSelector((state) => state.auth)
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const drawerWidth = 5
-  const railWidth = 5
-  const sidebarWidth = sidebarOpen ? drawerWidth : railWidth
+
+  const isEmployeeOnly = roles.includes('Employee') && !roles.includes('Admin')
+  const showSidebar = !isEmployeeOnly
+
+  // Must match widths in `AppSidebar` to avoid content overlap for admins
+  const drawerWidth = 0
+  const railWidth = 0
+  const sidebarWidth = showSidebar ? (sidebarOpen ? drawerWidth : railWidth) : 0
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
       <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        <AppSidebar open={sidebarOpen} />
+        {showSidebar && <AppSidebar open={sidebarOpen} />}
 
         <Box
           component="main"

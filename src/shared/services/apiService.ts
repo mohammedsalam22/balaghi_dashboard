@@ -23,7 +23,16 @@ class ApiService {
   private errorTransformer: ErrorTransformer
 
   constructor(baseURL?: string) {
-    this.baseURL = baseURL || import.meta.env.VITE_API_BASE_URL || '/api'
+    let resolvedBaseURL = baseURL || import.meta.env.VITE_API_BASE_URL || '/api'
+
+    if (import.meta.env.DEV && typeof window !== 'undefined') {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      if (isLocalhost && /^https?:\/\//i.test(resolvedBaseURL)) {
+        resolvedBaseURL = '/api'
+      }
+    }
+
+    this.baseURL = resolvedBaseURL
     
     this.tokenRefreshManager = new TokenRefreshManager()
     this.errorTransformer = new ErrorTransformer()

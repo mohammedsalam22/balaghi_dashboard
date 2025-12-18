@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Box, Typography, Container } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useComplaints } from '../hooks/useComplaints'
@@ -6,10 +7,27 @@ import ComplaintFilters from './ComplaintFilters'
 import ComplaintsGrid from './ComplaintsGrid'
 import ComplaintsSkeleton from './ComplaintsSkeleton'
 import ComplaintsSummary from './ComplaintsSummary'
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks'
+import { fetchAgenciesAsync } from '../../governmentagency/slices/governmentAgenciesSlice'
 
 export default function ComplaintsPage() {
   const { t } = useTranslation('complaints')
-  const { complaints, loading, error, refetch } = useComplaints()
+  const dispatch = useAppDispatch()
+  const roles = useAppSelector((state) => state.auth.roles || [])
+  const isAdmin = roles.includes('Admin')
+  const agenciesState = useAppSelector((state) => state.governmentAgencies)
+
+  const [agencyId, setAgencyId] = useState<string | null>(null)
+
+  // Fetch agencies list for admin filter dropdown
+  useEffect(() => {
+    if (!isAdmin) return
+    if (!agenciesState.isLoading && agenciesState.agencies.length === 0) {
+      dispatch(fetchAgenciesAsync())
+    }
+  }, [agenciesState.agencies.length, agenciesState.isLoading, dispatch, isAdmin])
+
+  const { complaints, loading, error, refetch } = useComplaints({ agencyId })
   const {
     searchQuery,
     setSearchQuery,
@@ -48,13 +66,17 @@ export default function ComplaintsPage() {
         onSearchChange={setSearchQuery}
         statusFilter={statusFilter}
         onStatusFilterChange={setStatusFilter}
+        showAgencyFilter={isAdmin}
+        agencies={agenciesState.agencies}
+        agencyId={agencyId}
+        onAgencyChange={(id) => setAgencyId(id)}
       />
 
       {/* Summary */}
       <ComplaintsSummary
         totalComplaints={complaints}
         visibleComplaints={filteredComplaints}
-        isFiltered={searchQuery.trim().length > 0 || statusFilter !== 'All Status'}
+        isFiltered={searchQuery.trim().length > 0 || statusFilter !== 'All Status' || !!agencyId}
       />
 
       {/* Complaints Grid */}

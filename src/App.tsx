@@ -10,6 +10,13 @@ import SettingsPage from './modules/settings/components/SettingsPage'
 import GovernmentAgencyPage from './modules/governmentagency/components/GovernmentAgencyPage'
 import ProtectedRoute from './shared/components/ProtectedRoute'
 import MainLayout from './shared/layouts/MainLayout'
+import { useAppSelector } from './shared/store/hooks'
+
+function HomeRedirect() {
+  const { roles } = useAppSelector((state) => state.auth)
+  const isAdmin = roles.includes('Admin')
+  return <Navigate to={isAdmin ? '/dashboard' : '/complaints'} replace />
+}
 
 function App() {
   return (
@@ -83,8 +90,22 @@ function App() {
           />
 
           {/* Default redirect */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <HomeRedirect />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <ProtectedRoute>
+                <HomeRedirect />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

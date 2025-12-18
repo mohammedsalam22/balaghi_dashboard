@@ -30,7 +30,7 @@ export default function LoginPage() {
   const palette = usePalette()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth)
+  const { isLoading, error, isAuthenticated, roles } = useAppSelector((state) => state.auth)
 
   const [credentials, setCredentials] = useState<LoginCredentials>({
     email: '',
@@ -59,18 +59,21 @@ export default function LoginPage() {
     dispatch(clearError())
     const result = await dispatch(loginAsync(credentials))
     
-    // Navigate to dashboard on successful login
+    // Navigate based on role on successful login
     if (loginAsync.fulfilled.match(result)) {
-      navigate('/dashboard', { replace: true })
+      const loggedInRoles = (result.payload as any)?.roles as string[] | undefined
+      const isAdmin = (loggedInRoles || []).includes('Admin')
+      navigate(isAdmin ? '/dashboard' : '/complaints', { replace: true })
     }
   }
 
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard', { replace: true })
+      const isAdmin = roles.includes('Admin')
+      navigate(isAdmin ? '/dashboard' : '/complaints', { replace: true })
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate, roles])
 
   // Extract RGB values from theme primary color for gradient
   // palette.primary is in format "rgb(r, g, b)"

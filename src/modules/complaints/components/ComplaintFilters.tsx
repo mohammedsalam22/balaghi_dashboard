@@ -2,12 +2,17 @@ import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/
 import { Search } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { FilterStatus } from '../hooks/useComplaintFilters'
+import type { GovernmentAgency } from '../../governmentagency/types'
 
 interface ComplaintFiltersProps {
   searchQuery: string
   onSearchChange: (query: string) => void
   statusFilter: FilterStatus
   onStatusFilterChange: (status: FilterStatus) => void
+  agencyId?: string | null
+  onAgencyChange?: (agencyId: string | null) => void
+  agencies?: GovernmentAgency[]
+  showAgencyFilter?: boolean
 }
 
 export default function ComplaintFilters({
@@ -15,6 +20,10 @@ export default function ComplaintFilters({
   onSearchChange,
   statusFilter,
   onStatusFilterChange,
+  agencyId,
+  onAgencyChange,
+  agencies,
+  showAgencyFilter,
 }: ComplaintFiltersProps) {
   const { t } = useTranslation('complaints')
   
@@ -73,6 +82,30 @@ export default function ComplaintFilters({
           <MenuItem value="Rejected">{t('status.rejected')}</MenuItem>
         </Select>
       </FormControl>
+
+      {showAgencyFilter && (
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel>{t('filters.agency')}</InputLabel>
+          <Select
+            value={agencyId ?? ''}
+            label={t('filters.agency')}
+            onChange={(e) => onAgencyChange?.(e.target.value ? String(e.target.value) : null)}
+            sx={{
+              borderRadius: '0.5rem',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'divider',
+              },
+            }}
+          >
+            <MenuItem value="">{t('filters.allAgencies')}</MenuItem>
+            {(agencies || []).map((a) => (
+              <MenuItem key={a.id} value={a.id}>
+                {a.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
     </Box>
   )
 }

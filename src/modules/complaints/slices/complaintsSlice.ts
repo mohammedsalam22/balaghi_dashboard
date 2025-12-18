@@ -8,25 +8,30 @@ interface ComplaintsState {
   complaints: Complaint[]
   isLoading: boolean
   error: string | null
+  hasFetched: boolean
   fetchedForIsAdmin: boolean | null
+  fetchedForAgencyId: string | null
 }
 
 const initialState: ComplaintsState = {
   complaints: [],
   isLoading: false,
   error: null,
+  hasFetched: false,
   fetchedForIsAdmin: null,
+  fetchedForAgencyId: null,
 }
 
 // Async thunk for fetching complaints
 export const fetchComplaintsAsync = createAsyncThunk(
   'complaints/fetchComplaints',
-  async (_, { rejectWithValue, getState }) => {
+  async (args: { agencyId?: string | null } | undefined, { rejectWithValue, getState }) => {
     try {
       const state = getState() as RootState
       const isAdmin = (state.auth.roles || []).includes('Admin')
-      const complaints = await complaintService.getAll({ isAdmin })
-      return { complaints, isAdmin }
+      const agencyId = args?.agencyId ?? null
+      const complaints = await complaintService.getAll({ isAdmin, agencyId })
+      return { complaints, isAdmin, agencyId }
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch complaints')
     }
@@ -78,14 +83,17 @@ const complaintsSlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(fetchComplaintsAsync.fulfilled, (state, action: PayloadAction<{ complaints: Complaint[]; isAdmin: boolean }>) => {
+      .addCase(fetchComplaintsAsync.fulfilled, (state, action: PayloadAction<{ complaints: Complaint[]; isAdmin: boolean; agencyId: string | null }>) => {
         state.isLoading = false
         state.complaints = action.payload.complaints
+        state.hasFetched = true
         state.fetchedForIsAdmin = action.payload.isAdmin
+        state.fetchedForAgencyId = action.payload.agencyId
         state.error = null
       })
       .addCase(fetchComplaintsAsync.rejected, (state, action) => {
         state.isLoading = false
+        state.hasFetched = true
         state.error = (action.payload as string) || 'Failed to fetch complaints'
       })
 

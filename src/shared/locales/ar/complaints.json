@@ -11,6 +11,10 @@
     "resolved": "تم الحل",
     "rejected": "مرفوض"
   },
+  "filters": {
+    "agency": "الجهة",
+    "allAgencies": "كل الجهات"
+  },
   "card": {
     "attachments": "مرفق",
     "attachmentsPlural": "مرفقات"

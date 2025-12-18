@@ -7,10 +7,17 @@ export interface ComplaintsResponse {
 }
 
 export const complaintService = {
-  getAll: async (options?: { isAdmin?: boolean }): Promise<Complaint[]> => {
+  getAll: async (options?: { isAdmin?: boolean; agencyId?: string | null }): Promise<Complaint[]> => {
     try {
       const endpoint = options?.isAdmin ? '/complaints/GetAllByAdmin' : '/complaints/my-agency'
-      const response = await apiService.get<Complaint[]>(endpoint)
+      const config =
+        options?.isAdmin && options?.agencyId
+          ? {
+              params: { agencyId: options.agencyId },
+            }
+          : undefined
+
+      const response = await apiService.get<Complaint[]>(endpoint, config)
       return response || []
     } catch (error) {
       console.error('Error fetching complaints:', error)

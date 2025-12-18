@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppBar as MuiAppBar, Toolbar, IconButton, Typography, Box, Menu, MenuItem, Divider } from '@mui/material'
 import { Menu as MenuIcon } from '@mui/icons-material'
-import { Bell, User, LogOut } from 'lucide-react'
+import { Bell, User, LogOut, Settings as SettingsIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { logout } from '../../modules/auth/slices/authSlice'
 
 interface AppBarProps {
@@ -15,8 +15,11 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
   const { t } = useTranslation(['auth', 'common'])
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { roles } = useAppSelector((state) => state.auth)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+
+  const isEmployeeOnly = roles.includes('Employee') && !roles.includes('Admin')
 
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -41,6 +44,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
       }}
     >
       <Toolbar sx={{ gap: 1.5, px: 1.5 }}>
+        {!isEmployeeOnly && (
         <IconButton
           edge="start"
           color="inherit"
@@ -54,6 +58,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
         >
           <MenuIcon />
         </IconButton>
+        )}
 
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="h1" component="h1" sx={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2 }}>
@@ -65,6 +70,20 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
         </Box>
 
         <Box sx={{ display: 'flex', gap: 0.75, alignItems: 'center' }}>
+          {isEmployeeOnly && (
+          <IconButton
+            color="inherit"
+              onClick={() => navigate('/settings')}
+              aria-label="settings"
+            sx={{
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+            }}
+          >
+              <SettingsIcon size={20} />
+          </IconButton>
+          )}
           <IconButton
             color="inherit"
             sx={{
