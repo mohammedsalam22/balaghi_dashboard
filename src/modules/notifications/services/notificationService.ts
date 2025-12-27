@@ -12,7 +12,6 @@ class NotificationService {
 
   connect(token: string, dispatch: Dispatch) {
     this.dispatch = dispatch;
-    // Use token as query parameter (temporary fix until backend supports post-connection auth)
     const url = `ws://localhost:5000/ws/admin/notifications?token=${token}`;
     console.log('Connecting to WebSocket:', url);
     this.ws = new WebSocket(url);
@@ -26,7 +25,6 @@ class NotificationService {
     this.ws.onmessage = (event) => {
       try {
         const data: Notification = JSON.parse(event.data);
-        // Add unique ID and mark as unread
         const notificationWithId: Notification = {
           ...data,
           id: crypto.randomUUID(),
@@ -49,7 +47,6 @@ class NotificationService {
       console.error('WebSocket error:', error);
       console.error('WebSocket state:', this.ws?.readyState);
       console.error('WebSocket URL:', this.ws?.url);
-      // Log additional browser-specific error details
       if (this.ws?.readyState === 3) {
         console.error('Connection closed - possible causes:');
         console.error('1. Backend WebSocket server not running');

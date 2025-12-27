@@ -5,6 +5,7 @@ import citizensReducer from '../../modules/citizens/slices/citizensSlice'
 import dashboardReducer from '../../modules/dashboard/slices/dashboardSlice'
 import governmentAgenciesReducer from '../../modules/governmentagency/slices/governmentAgenciesSlice'
 import notificationsReducer from '../../modules/notifications/slices/notificationSlice'
+import reportsReducer from '../../modules/reports/slices/reportsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     governmentAgencies: governmentAgenciesReducer,
     notifications: notificationsReducer,
+    reports: reportsReducer,
   },
 })
 

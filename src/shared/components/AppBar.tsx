@@ -112,6 +112,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
               <SettingsIcon size={20} />
           </IconButton>
           )}
+          {!isEmployeeOnly && (
           <IconButton
             color="inherit"
             onClick={handleNotificationsMenuClick}
@@ -126,6 +127,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
               <Bell size={20} />
             </Badge>
           </IconButton>
+          )}
 
           <IconButton
             color="inherit"
@@ -187,7 +189,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
         >
           <Box sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant="subtitle2">
-              {t('common:notifications', 'Notifications')}
+              {t('common:notifications.title', 'Notifications')}
             </Typography>
             {unreadNotifications.length > 0 && (
               <Badge badgeContent={unreadNotifications.length} color="error" />
@@ -196,7 +198,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
           <Divider />
           {notifications.length === 0 ? (
             <MenuItem disabled sx={{ py: 2 }}>
-              <Typography variant="body2">{t('common:noNotifications', 'No notifications')}</Typography>
+              <Typography variant="body2">{t('common:notifications.noNotifications', 'No notifications')}</Typography>
             </MenuItem>
           ) : (
             notifications.slice(0, 5).map((notification) => (
@@ -236,7 +238,7 @@ export default function AppBar({ onMenuClick }: AppBarProps) {
           )}
           <Divider />
           <MenuItem onClick={handleViewAllNotifications} sx={{ py: 1 }}>
-            <Typography variant="body2">{t('common:viewAll', 'View All Notifications')}</Typography>
+            <Typography variant="body2">{t('common:notifications.viewAll', 'View All Notifications')}</Typography>
           </MenuItem>
         </Menu>
       </Toolbar>

@@ -64,5 +64,45 @@
     "search": "Search...",
     "enterText": "Enter text...",
     "selectOption": "Select an option"
+  },
+  "reports": {
+    "title": "Reports",
+    "description": "Export complaint reports in PDF or CSV format",
+    "exportOptions": "Export Options",
+    "format": "Format",
+    "pdfFormat": "PDF Document",
+    "csvFormat": "CSV Spreadsheet",
+    "agency": "Agency",
+    "allAgencies": "All Agencies",
+    "exportReport": "Export Report",
+    "exporting": "Exporting...",
+    "exportHistory": "Export History",
+    "lastExport": "Last exported",
+    "noExports": "No exports yet",
+    "errors": {
+      "invalidFormat": "Invalid export format specified",
+      "noComplaints": "No complaints found for the specified criteria",
+      "unauthorized": "Unauthorized access",
+      "insufficientPermissions": "Insufficient permissions to export reports",
+      "exportFailed": "Failed to export report. Please try again.",
+      "noFileData": "No file data received from server",
+      "emptyFile": "Downloaded file is empty"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "clearAll": "Clear All",
+    "status": "Status",
+    "type": "Type",
+    "trackingNumber": "Tracking Number",
+    "complaintType": "Complaint Type",
+    "submittedAt": "Submitted At",
+    "actions": "Actions",
+    "noNotifications": "No notifications yet",
+    "markAsRead": "Mark as read",
+    "remove": "Remove",
+    "read": "Read",
+    "unread": "Unread",
+    "viewAll": "View All Notifications"
   }
 }

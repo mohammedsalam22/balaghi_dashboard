@@ -9,6 +9,7 @@ import AnalyticsPage from './modules/analytics/components/AnalyticsPage'
 import SettingsPage from './modules/settings/components/SettingsPage'
 import GovernmentAgencyPage from './modules/governmentagency/components/GovernmentAgencyPage'
 import NotificationsPage from './modules/notifications/components/NotificationsPage'
+import ReportsPage from './modules/reports/components/ReportsPage'
 import ProtectedRoute from './shared/components/ProtectedRoute'
 import MainLayout from './shared/layouts/MainLayout'
 import { useAppSelector } from './shared/store/hooks'
@@ -95,6 +96,16 @@ function App() {
               <ProtectedRoute>
                 <MainLayout>
                   <NotificationsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <ReportsPage />
                 </MainLayout>
               </ProtectedRoute>
             }

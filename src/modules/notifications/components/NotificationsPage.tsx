@@ -21,7 +21,7 @@ import type { RootState } from '../../../shared/store/store';
 import { removeNotificationById, markAsRead, clearNotifications } from '../slices/notificationSlice';
 
 const NotificationsPage: React.FC = () => {
-  const { t } = useTranslation('notifications');
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const notifications = useSelector((state: RootState) => state.notifications.notifications);
 
@@ -43,7 +43,7 @@ const NotificationsPage: React.FC = () => {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
-          {t('title', 'Notifications')}
+          {t('notifications.title')}
           {unreadCount > 0 && (
             <Badge badgeContent={unreadCount} color="error" sx={{ ml: 2 }}>
               <Box />
@@ -57,7 +57,7 @@ const NotificationsPage: React.FC = () => {
             onClick={handleClearAll}
             startIcon={<DeleteIcon />}
           >
-            {t('clearAll', 'Clear All')}
+            {t('notifications.clearAll')}
           </Button>
         )}
       </Box>
@@ -67,12 +67,12 @@ const NotificationsPage: React.FC = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>{t('status', 'Status')}</TableCell>
-                <TableCell>{t('type', 'Type')}</TableCell>
-                <TableCell>{t('trackingNumber', 'Tracking Number')}</TableCell>
-                <TableCell>{t('complaintType', 'Complaint Type')}</TableCell>
-                <TableCell>{t('submittedAt', 'Submitted At')}</TableCell>
-                <TableCell>{t('actions', 'Actions')}</TableCell>
+                <TableCell>{t('notifications.status')}</TableCell>
+                <TableCell>{t('notifications.type')}</TableCell>
+                <TableCell>{t('notifications.trackingNumber')}</TableCell>
+                <TableCell>{t('notifications.complaintType')}</TableCell>
+                <TableCell>{t('notifications.submittedAt')}</TableCell>
+                <TableCell>{t('notifications.actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -80,7 +80,7 @@ const NotificationsPage: React.FC = () => {
                 <TableRow>
                   <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                     <Typography variant="body1" color="text.secondary">
-                      {t('noNotifications', 'No notifications yet')}
+                      {t('notifications.noNotifications')}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -115,7 +115,7 @@ const NotificationsPage: React.FC = () => {
                           <IconButton
                             size="small"
                             onClick={() => handleMarkAsRead(notification.id)}
-                            title={t('markAsRead', 'Mark as read')}
+                            title={t('notifications.markAsRead')}
                           >
                             <MarkReadIcon fontSize="small" />
                           </IconButton>
@@ -124,7 +124,7 @@ const NotificationsPage: React.FC = () => {
                           size="small"
                           color="error"
                           onClick={() => handleRemove(notification.id)}
-                          title={t('remove', 'Remove')}
+                          title={t('notifications.remove')}
                         >
                           <DeleteIcon fontSize="small" />
                         </IconButton>

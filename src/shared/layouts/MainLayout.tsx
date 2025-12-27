@@ -16,10 +16,13 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const { roles } = useAppSelector((state) => state.auth)
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
-  useNotifications()
-
   const isEmployeeOnly = roles.includes('Employee') && !roles.includes('Admin')
   const showSidebar = !isEmployeeOnly
+
+  // Only use notifications hook for Admin users
+  if (!isEmployeeOnly) {
+    useNotifications()
+  }
 
   const drawerWidth = 0
   const railWidth = 0
@@ -52,7 +55,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
           {children}
         </Box>
       </Box>
-      <NotificationSnackbar />
+      {!isEmployeeOnly && <NotificationSnackbar />}
     </Box>
   )
 }

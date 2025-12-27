@@ -64,5 +64,45 @@
     "search": "بحث...",
     "enterText": "أدخل النص...",
     "selectOption": "اختر خياراً"
+  },
+  "reports": {
+    "title": "التقارير",
+    "description": "تصدير تقارير الشكاوى بصيغة PDF أو CSV",
+    "exportOptions": "خيارات التصدير",
+    "format": "الصيغة",
+    "pdfFormat": "مستند PDF",
+    "csvFormat": "جدول CSV",
+    "agency": "الجهة",
+    "allAgencies": "جميع الجهات",
+    "exportReport": "تصدير التقرير",
+    "exporting": "جاري التصدير...",
+    "exportHistory": "سجل التصدير",
+    "lastExport": "آخر تصدير",
+    "noExports": "لا توجد عمليات تصدير بعد",
+    "errors": {
+      "invalidFormat": "صيغة تصدير غير صحيحة",
+      "noComplaints": "لا توجد شكاوى مطابقة للمعايير المحددة",
+      "unauthorized": "وصول غير مصرح به",
+      "insufficientPermissions": "صلاحيات غير كافية لتصدير التقارير",
+      "exportFailed": "فشل تصدير التقرير. يرجى المحاولة مرة أخرى.",
+      "noFileData": "لم يتم استلام بيانات الملف من الخادم",
+      "emptyFile": "الملف الذي تم تحميله فارغ"
+    }
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "clearAll": "مسح الكل",
+    "status": "الحالة",
+    "type": "النوع",
+    "trackingNumber": "رقم التتبع",
+    "complaintType": "نوع الشكوى",
+    "submittedAt": "تاريخ التقديم",
+    "actions": "الإجراءات",
+    "noNotifications": "لا توجد إشعارات بعد",
+    "markAsRead": "تعيين كمقروء",
+    "remove": "إزالة",
+    "read": "مقروء",
+    "unread": "غير مقروء",
+    "viewAll": "عرض جميع الإشعارات"
   }
 }

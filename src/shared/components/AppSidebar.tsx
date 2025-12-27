@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Box } from '@mui/material'
-import { Home as HomeIcon, FileText, Users, BarChart3, Settings as SettingsIcon, Building2 } from 'lucide-react'
+import { Home as HomeIcon, FileText, Users, BarChart3, Settings as SettingsIcon, Building2, Bell, FileSpreadsheet } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAppSelector } from '../store/hooks'
@@ -28,6 +28,8 @@ export default function AppSidebar({ open }: AppSidebarProps) {
     { icon: <Users size={20} />, labelKey: 'citizens', path: '/citizens', roles: ['Admin'] },
     { icon: <Building2 size={20} />, labelKey: 'governmentAgencies', path: '/government-agency', roles: ['Admin'] },
     { icon: <BarChart3 size={20} />, labelKey: 'analytics', path: '/analytics', roles: ['Admin'] },
+    { icon: <FileSpreadsheet size={20} />, labelKey: 'reports', path: '/reports', roles: ['Admin'] },
+    { icon: <Bell size={20} />, labelKey: 'notifications', path: '/notifications', roles: ['Admin'] },
     { icon: <SettingsIcon size={20} />, labelKey: 'settings', path: '/settings', roles: ['Admin', 'Employee'] },
   ]
 
