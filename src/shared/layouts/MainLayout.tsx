@@ -4,6 +4,8 @@ import { useLanguage } from '../contexts/LanguageContext'
 import AppBar from '../components/AppBar'
 import AppSidebar from '../components/AppSidebar'
 import { useAppSelector } from '../store/hooks'
+import { useNotifications } from '../../modules/notifications/hooks/useNotifications'
+import NotificationSnackbar from '../../modules/notifications/components/NotificationSnackbar'
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -14,10 +16,11 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const { roles } = useAppSelector((state) => state.auth)
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
+  useNotifications()
+
   const isEmployeeOnly = roles.includes('Employee') && !roles.includes('Admin')
   const showSidebar = !isEmployeeOnly
 
-  // Must match widths in `AppSidebar` to avoid content overlap for admins
   const drawerWidth = 0
   const railWidth = 0
   const sidebarWidth = showSidebar ? (sidebarOpen ? drawerWidth : railWidth) : 0
@@ -49,6 +52,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
           {children}
         </Box>
       </Box>
+      <NotificationSnackbar />
     </Box>
   )
 }

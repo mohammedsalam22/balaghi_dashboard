@@ -32,6 +32,12 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        '/ws': {
+          target: proxyTarget.replace(/^http/, 'ws'),
+          ws: true,
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
   }

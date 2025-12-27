@@ -8,6 +8,7 @@ import CitizensPage from './modules/citizens/components/CitizensPage'
 import AnalyticsPage from './modules/analytics/components/AnalyticsPage'
 import SettingsPage from './modules/settings/components/SettingsPage'
 import GovernmentAgencyPage from './modules/governmentagency/components/GovernmentAgencyPage'
+import NotificationsPage from './modules/notifications/components/NotificationsPage'
 import ProtectedRoute from './shared/components/ProtectedRoute'
 import MainLayout from './shared/layouts/MainLayout'
 import { useAppSelector } from './shared/store/hooks'
@@ -84,6 +85,16 @@ function App() {
               <ProtectedRoute>
                 <MainLayout>
                   <GovernmentAgencyPage />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <NotificationsPage />
                 </MainLayout>
               </ProtectedRoute>
             }
